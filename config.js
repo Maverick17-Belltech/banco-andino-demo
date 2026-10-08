@@ -9,7 +9,7 @@ window.DEMO_CONFIG = {
   // 2) Click to Call -> Endpoint de Voice Gateway > "Endpoint URL"
   //    Convertir: wss://endpoint-trial.cognigy.ai/<token>/voiceGateway
   //          ->   https://endpoint-trial.cognigy.ai/<token>
-  VOICE_ENDPOINT_URL: "https://endpoint-trial.cognigy.ai/5c06317ecc489195073031a3b66851daf02a0dbe17dd769cd988dc43276fc1d6",
+  VOICE_ENDPOINT_URL: "https://endpoint-trial.cognigy.ai/5691f148eca1748ff9498059ec2dd9db7b77bb7e2d7367e0ac4d58f4704cd853",
 
   // 3) Email (simulado) -> Endpoint REST > "Endpoint URL"
   //    Dejar vacío ("") para ocultar el formulario hasta configurarlo.
