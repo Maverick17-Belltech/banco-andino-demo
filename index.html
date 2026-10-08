@@ -101,13 +101,54 @@
           <a class="btn btn-ghost" href="#contacto">📞 Llamar desde la web</a>
         </div>
       </div>
-      <div class="hero-card">
-        <h3>Caja de Ahorro</h3><small>Juan Pérez · •••• 4521</small>
-        <div class="balance">$ 1.254.380,50</div>
-        <span class="chip">Sueldo acreditado</span><span class="chip">Préstamo preaprobado</span>
+      <!-- LOGIN (no logueado) -->
+      <div class="hero-card" id="loginCard">
+        <h3>🔒 Home Banking</h3><small>Ingresá a tu cuenta</small>
+        <form id="loginForm" style="margin-top:16px">
+          <label for="lgEmail" style="color:#fff;opacity:.85">Email</label>
+          <input id="lgEmail" type="email" required placeholder="tu@email.com" autocomplete="off">
+          <label for="lgPass" style="color:#fff;opacity:.85;display:block;margin-top:10px">Clave</label>
+          <input id="lgPass" type="password" required placeholder="••••••••" autocomplete="off">
+          <button class="btn btn-accent" style="margin-top:14px;width:100%;justify-content:center" type="submit">Ingresar</button>
+          <div id="loginErr" style="color:#FFD2CC;font-size:13px;margin-top:8px;min-height:18px"></div>
+        </form>
+        <small>Demo: usuarios en la "Guía para el presentador" · clave <b>Demo1234@</b></small>
+      </div>
+      <!-- RESUMEN (logueado) -->
+      <div class="hero-card" id="welcomeCard" style="display:none">
+        <small>Bienvenido/a</small>
+        <h3 id="wcName" style="font-size:24px;margin:2px 0 10px">—</h3>
+        <span class="chip">✅ Sesión iniciada</span><span class="chip">Sofía ya te reconoce</span>
+        <div class="hero-actions" style="margin-top:18px">
+          <a class="btn btn-accent" href="#micuenta">Ver mi cuenta</a>
+          <button class="btn btn-ghost" onclick="logout()">Salir</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- MI CUENTA (solo logueado) -->
+  <section id="micuenta" style="display:none">
+    <div class="wrap">
+      <h2 class="section-title">Mi cuenta</h2>
+      <p class="section-sub" id="mcSub">Resumen de tus productos.</p>
+      <div class="grid-3">
+        <div class="card"><div class="ico">🏦</div><h3>Caja de Ahorro</h3><p>•••• <span class="acc4">0000</span></p>
+          <div class="balance" style="color:var(--primary);font-size:26px">$ 1.254.380,50</div>
+          <button class="ask" onclick="askSofia('¿Cuáles fueron mis últimos movimientos de la caja de ahorro?')">Consultar a Sofía →</button></div>
+        <div class="card"><div class="ico">📄</div><h3>Cuenta Corriente</h3><p>Acuerdo disponible $ 500.000</p>
+          <div class="balance" style="color:var(--primary);font-size:26px">$ 356.120,00</div>
+          <button class="ask" onclick="askSofia('¿Cuánto tengo en la cuenta corriente?')">Consultar a Sofía →</button></div>
+        <div class="card"><div class="ico">💳</div><h3>Tarjeta de crédito</h3><p>•••• 4521 · vence 20-10-2026 · mínimo $ 28.400</p>
+          <div class="balance" style="color:var(--primary);font-size:26px">$ 189.450,75</div>
+          <button class="ask" onclick="askSofia('Perdí mi tarjeta terminada en 4521, quiero bloquearla')">Bloquear con Sofía →</button></div>
+      </div>
+      <div class="card" style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div><h3 style="margin:0">🛡️ Póliza <span id="mcPoliza">—</span></h3><p>Vigente · Denunciá un siniestro sin volver a identificarte.</p></div>
+        <button class="btn btn-primary" onclick="askSofia('Quiero denunciar un siniestro de mi póliza')">Denunciar siniestro</button>
+      </div>
+    </div>
+  </section>
 
   <!-- PRODUCTOS -->
   <section id="productos">
@@ -192,10 +233,12 @@
       <h2 class="section-title">Guía para el presentador</h2>
       <p class="section-sub">Clientes de prueba y guion sugerido.</p>
       <div class="grid-3">
-        <div class="card guide"><h3>Clientes de prueba</h3>
-          <ul>
-            <li><code>30123456</code> · <code>15-03-1985</code> · Juan Pérez</li>
-            <li><code>28987654</code> · <code>02-11-1979</code> · María Gómez</li>
+        <div class="card guide"><h3>Usuarios de prueba</h3>
+          <p style="font-size:13px">Login web: clave <code>Demo1234@</code>. Sin login, Sofía valida con DNI + fecha.</p>
+          <ul style="font-size:14px">
+            <li><code>sebastian.sosa@belltech.la</code><br>DNI <code>29018611</code> · <code>17-07-1981</code></li>
+            <li><code>patricia.vinyolas@gmail.com</code><br>DNI <code>27933366</code> · <code>26-02-1980</code></li>
+            <li>Solo chat: <code>30123456</code> · <code>15-03-1985</code> (Juan)<br><code>28987654</code> · <code>02-11-1979</code> (María)</li>
           </ul></div>
         <div class="card guide"><h3>Guion de chat</h3>
           <ol><li>Pregunta de FAQ (seguros)</li><li>Consulta de saldo → validación</li><li>Bloqueo de tarjeta → confirmación</li><li>Denuncia de siniestro</li><li>"Quiero hablar con una persona"</li></ol></div>
@@ -215,16 +258,60 @@
     document.documentElement.style.setProperty('--primary', CFG.PRIMARY_COLOR || '#0B3D91');
     const isSet = (u) => u && !u.includes('PEGAR_TOKEN');
 
+    // ---------- LOGIN SIMULADO (Home Banking demo) ----------
+    // Usuarios ficticios: deben coincidir con el nodo Code "validar_identidad" de Cognigy.
+    const USERS = {
+      "sebastian.sosa@belltech.la":  { nombre: "Sebastian Sosa",    dni: "29018611", fecha_nacimiento: "17-07-1981", poliza: "IOU-112233", acc4: "3391" },
+      "patricia.vinyolas@gmail.com": { nombre: "Patricia Vinyolas", dni: "27933366", fecha_nacimiento: "26-02-1980", poliza: "AES-345678", acc4: "4802" }
+    };
+    const DEMO_PASS = "Demo1234@";
+    const store = {
+      get(){ try { return JSON.parse(localStorage.getItem('ba_session') || 'null'); } catch(_) { return null; } },
+      set(v){ try { localStorage.setItem('ba_session', JSON.stringify(v)); } catch(_) {} },
+      clear(){ try { localStorage.removeItem('ba_session'); } catch(_) {} }
+    };
+    const session = store.get();
+
+    document.getElementById('loginForm').addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const email = document.getElementById('lgEmail').value.trim().toLowerCase();
+      const pass = document.getElementById('lgPass').value;
+      const u = USERS[email];
+      if (!u || pass !== DEMO_PASS) { document.getElementById('loginErr').textContent = 'Email o clave incorrectos.'; return; }
+      store.set({ email, ...u, loginAt: new Date().toISOString() });
+      location.reload(); // reinicia el webchat con la identidad del cliente
+    });
+    function logout(){ store.clear(); location.reload(); }
+
+    if (session) {
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('welcomeCard').style.display = '';
+      document.getElementById('wcName').textContent = session.nombre;
+      document.getElementById('micuenta').style.display = '';
+      document.getElementById('mcSub').textContent = 'Hola ' + session.nombre.split(' ')[0] + ', este es el resumen de tus productos.';
+      document.getElementById('mcPoliza').textContent = session.poliza;
+      document.querySelectorAll('.acc4').forEach(e => e.textContent = session.acc4);
+    }
+
     // ---------- WEBCHAT ----------
+    // Si hay sesión, el webchat arranca con "inject" y envía los datos del cliente en input.data
     let webchat = null;
     const chatStatus = document.getElementById('chatStatus');
+    const authData = session
+      ? { authenticated: true, canal: 'web', email: session.email, nombre: session.nombre, dni: session.dni, fecha_nacimiento: session.fecha_nacimiento, poliza: session.poliza }
+      : { authenticated: false, canal: 'web' };
     if (isSet(CFG.WEBCHAT_CONFIG_URL) && typeof initWebchat === 'function') {
-      initWebchat(CFG.WEBCHAT_CONFIG_URL, {
+      const opts = {
         settings: {
           colors: { primaryColor: CFG.PRIMARY_COLOR },
-          behavior: { enableTypingIndicator: true, enableSTT: true }
+          behavior: { enableTypingIndicator: true, enableSTT: true },
+          startBehavior: { startBehavior: 'injection', getStartedPayload: 'Hola', getStartedData: authData }
         }
-      }).then(w => { webchat = w; window.cognigyWebchat = w; })
+      };
+      // Sesión distinta por cliente para no mezclar historiales entre logins
+      opts.userId = session ? 'cli-' + session.dni : 'anon-' + Math.random().toString(36).slice(2, 10);
+      opts.sessionId = 'web-' + Date.now();
+      initWebchat(CFG.WEBCHAT_CONFIG_URL, opts).then(w => { webchat = w; window.cognigyWebchat = w; })
         .catch(e => { chatStatus.textContent = 'No se pudo iniciar el webchat: ' + e.message; chatStatus.className = 'status err'; });
     } else {
       chatStatus.textContent = 'Configurá WEBCHAT_CONFIG_URL en config.js';

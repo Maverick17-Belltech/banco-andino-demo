@@ -44,11 +44,16 @@ Editalo directamente en GitHub (ícono del lápiz) y hacé commit; Pages se actu
 3. En las Instructions del Job: *"Si `input.data.channel` es `email`, respondé la consulta y enviá la respuesta con Send Email a `input.data.email` usando el asunto `input.data.asunto`."*
 4. Si el navegador bloquea el envío por **CORS**, la alternativa es un pequeño proxy (Cloudflare Worker / Azure Function) entre el sitio y el endpoint REST.
 
-## Clientes de prueba
+## Login simulado (Home Banking)
 
-| DNI | Fecha nac. | Cliente |
-|---|---|---|
-| 30123456 | 15-03-1985 | Juan Pérez |
-| 28987654 | 02-11-1979 | María Gómez |
+Clave para ambos: `Demo1234@`. Al iniciar sesión, el webchat envía en `input.data`:
+`{ authenticated: true, dni, fecha_nacimiento, nombre, email, poliza }`. En Cognigy, el nodo Code `auth_web` valida DNI + fecha contra la misma tabla de clientes y Sofía no vuelve a pedir identificación.
 
-> Entidad ficticia con fines de demostración. No usar datos reales.
+| Email (login) | DNI | Fecha nac. | Póliza |
+|---|---|---|---|
+| sebastian.sosa@belltech.la | 29018611 | 17-07-1981 | IOU-112233 |
+| patricia.vinyolas@gmail.com | 27933366 | 26-02-1980 | AES-345678 |
+
+Solo por chat (sin login): Juan Pérez `30123456` / `15-03-1985`, María Gómez `28987654` / `02-11-1979`.
+
+> Login simulado del lado del navegador: no es seguridad real (la clave se ve en el código fuente). Solo para demo.
