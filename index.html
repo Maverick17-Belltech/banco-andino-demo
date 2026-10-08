@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Andino &amp; Seguros | Demo</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --primary:#0B3D91; --primary-dark:#082B66; --accent:#F5A623;
+      --bg:#F6F8FC; --surface:#FFFFFF; --text:#1B2433; --muted:#5B6678; --border:#E3E8F0;
+      --ok:#1E8E5A; --err:#C0392B; --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+    a{color:inherit}
+    .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+    /* Banner demo */
+    .demo-bar{background:#FFF4DE;color:#7A4E00;font-size:13px;text-align:center;padding:6px 16px}
+    /* Header */
+    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--primary);text-decoration:none}
+    .logo-mark{width:34px;height:34px;border-radius:9px;background:var(--primary);display:grid;place-items:center;color:#fff;font-size:18px}
+    .menu{display:flex;gap:26px;font-size:15px;color:var(--muted)}
+    .menu a{text-decoration:none}.menu a:hover{color:var(--primary)}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;padding:11px 18px;font:600 15px Inter,sans-serif;cursor:pointer;text-decoration:none;transition:.15s}
+    .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
+    .btn-ghost{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
+    .btn-accent{background:var(--accent);color:#2B1B00}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    @media (max-width:820px){.menu{display:none}}
+    /* Hero */
+    .hero{background:linear-gradient(135deg,var(--primary) 0%,#1560BD 100%);color:#fff;padding:72px 0 88px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+    .hero h1{font-size:44px;line-height:1.1;margin:0 0 16px}
+    .hero p{font-size:18px;opacity:.9;margin:0 0 28px;max-width:520px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.7)}
+    .hero-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:26px;backdrop-filter:blur(6px)}
+    .hero-card h3{margin:0 0 6px}.hero-card small{opacity:.8}
+    .balance{font-size:34px;font-weight:700;margin:14px 0}
+    .chip{display:inline-block;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:99px;font-size:12px;margin-right:6px}
+    @media (max-width:820px){.hero-grid{grid-template-columns:1fr}.hero h1{font-size:34px}}
+    /* Sections */
+    section{padding:64px 0}
+    .section-title{font-size:30px;margin:0 0 8px}
+    .section-sub{color:var(--muted);margin:0 0 32px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    @media (max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr 1fr}}
+    @media (max-width:560px){.grid-3,.grid-4{grid-template-columns:1fr}}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+    .card .ico{font-size:26px;width:48px;height:48px;border-radius:12px;background:#EAF1FD;display:grid;place-items:center;margin-bottom:14px}
+    .card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:15px}
+    .ask{margin-top:14px;font-size:14px;font-weight:600;color:var(--primary);background:none;border:0;padding:0;cursor:pointer}
+    /* Contact channels */
+    .channels{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .channel{display:flex;flex-direction:column;gap:12px}
+    .channel .status{font-size:13px;color:var(--muted);min-height:20px}
+    .status.ok{color:var(--ok)}.status.err{color:var(--err)}
+    label{font-size:13px;font-weight:600;color:var(--muted)}
+    input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font:15px Inter,sans-serif;background:#FBFCFE}
+    textarea{min-height:90px;resize:vertical}
+    .call-ui{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .dot{width:10px;height:10px;border-radius:50%;background:#B8C2D3;display:inline-block}
+    .dot.live{background:#E53935;animation:pulse 1.2s infinite}
+    @keyframes pulse{50%{opacity:.35}}
+    /* Demo guide */
+    .guide li{margin-bottom:6px}
+    code{background:#EEF2F8;padding:2px 6px;border-radius:6px;font-size:13px}
+    footer{padding:32px 0;color:var(--muted);font-size:13px;text-align:center}
+  </style>
+</head>
+<body>
+  <div class="demo-bar">Sitio de demostración — "Banco Andino &amp; Seguros" es una entidad ficticia. No ingreses datos reales.</div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#"><span class="logo-mark">▲</span> Banco Andino <span style="font-weight:500;color:var(--muted)">&amp; Seguros</span></a>
+      <nav class="menu">
+        <a href="#productos">Productos</a>
+        <a href="#seguros">Seguros</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#guia">Guía demo</a>
+      </nav>
+      <button class="btn btn-primary" onclick="openChat()">💬 Hablar con Sofía</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Tu banco y tu seguro, atendidos 24/7 por IA.</h1>
+        <p>Consultá saldos, bloqueá tarjetas o denunciá un siniestro en minutos con Sofía, nuestra asesora virtual. Por chat, por email o con una llamada desde el navegador.</p>
+        <div class="hero-actions">
+          <button class="btn btn-accent" onclick="openChat()">💬 Chatear ahora</button>
+          <a class="btn btn-ghost" href="#contacto">📞 Llamar desde la web</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Caja de Ahorro</h3><small>Juan Pérez · •••• 4521</small>
+        <div class="balance">$ 1.254.380,50</div>
+        <span class="chip">Sueldo acreditado</span><span class="chip">Préstamo preaprobado</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTOS -->
+  <section id="productos">
+    <div class="wrap">
+      <h2 class="section-title">Productos</h2>
+      <p class="section-sub">Preguntale a Sofía por cualquiera de ellos: responde con la base de conocimiento del banco.</p>
+      <div class="grid-4">
+        <div class="card"><div class="ico">🏦</div><h3>Cuentas</h3><p>Caja de Ahorro gratuita y Cuenta Corriente bonificada con sueldo.</p><button class="ask" onclick="askSofia('¿Cuánto cuesta el mantenimiento de la cuenta?')">Preguntar a Sofía →</button></div>
+        <div class="card"><div class="ico">💳</div><h3>Tarjetas</h3><p>Bloqueo inmediato y reposición sin costo en 5 a 7 días.</p><button class="ask" onclick="askSofia('Perdí mi tarjeta, ¿qué hago?')">Preguntar a Sofía →</button></div>
+        <div class="card"><div class="ico">💸</div><h3>Préstamos</h3><p>Personales de 12 a 60 cuotas fijas, aprobación en el día.</p><button class="ask" onclick="askSofia('¿Qué préstamos ofrecen?')">Preguntar a Sofía →</button></div>
+        <div class="card"><div class="ico">🔐</div><h3>Seguridad</h3><p>Nunca te pediremos claves, PIN ni códigos por ningún canal.</p><button class="ask" onclick="askSofia('¿El banco me puede pedir mi clave por chat?')">Preguntar a Sofía →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGUROS -->
+  <section id="seguros" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="section-title">Seguros</h2>
+      <p class="section-sub">Denunciá un siniestro de punta a punta con Sofía y recibí tu número de gestión al instante.</p>
+      <div class="grid-3">
+        <div class="card"><div class="ico">🚗</div><h3>Auto</h3><p>Terceros, terceros completo y todo riesgo. Denuncia en 72 h.</p><button class="ask" onclick="askSofia('Quiero denunciar un siniestro de auto')">Denunciar siniestro →</button></div>
+        <div class="card"><div class="ico">🏠</div><h3>Hogar</h3><p>Hogar Plus cubre agua, incendio, robo y responsabilidad civil.</p><button class="ask" onclick="askSofia('¿El seguro de hogar cubre daños por agua?')">Preguntar a Sofía →</button></div>
+        <div class="card"><div class="ico">❤️</div><h3>Vida y Viaje</h3><p>Protección para vos y tu familia, dentro y fuera del país.</p><button class="ask" onclick="askSofia('¿Qué seguros ofrecen?')">Preguntar a Sofía →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CANALES -->
+  <section id="contacto" class="channels">
+    <div class="wrap">
+      <h2 class="section-title">Contactanos</h2>
+      <p class="section-sub">Un mismo agente de IA, en todos los canales.</p>
+      <div class="grid-3">
+        <!-- Webchat -->
+        <div class="card channel">
+          <div class="ico">💬</div>
+          <h3>Webchat</h3>
+          <p>Chateá con Sofía. Si lo necesitás, te deriva con un asesor humano sin perder el contexto.</p>
+          <button class="btn btn-primary" onclick="openChat()">Abrir chat</button>
+          <div class="status" id="chatStatus"></div>
+        </div>
+
+        <!-- Click to Call -->
+        <div class="card channel">
+          <div class="ico">📞</div>
+          <h3>Llamar desde la web</h3>
+          <p>Hablá con Sofía por voz desde el navegador, sin teléfono. Necesitás micrófono.</p>
+          <div class="call-ui">
+            <button class="btn btn-primary" id="callBtn">📞 Llamar</button>
+            <button class="btn btn-ghost" id="hangupBtn" disabled>Colgar</button>
+            <span><span class="dot" id="callDot"></span> <span id="callTimer">00:00</span></span>
+          </div>
+          <div class="status" id="callStatus">Listo para llamar.</div>
+        </div>
+
+        <!-- Email -->
+        <div class="card channel" id="emailCard">
+          <div class="ico">✉️</div>
+          <h3>Escribinos por email</h3>
+          <p>Sofía analiza tu consulta y te responde a tu casilla.</p>
+          <form id="emailForm">
+            <label for="em">Tu email</label>
+            <input id="em" type="email" required placeholder="nombre@ejemplo.com">
+            <label for="subj" style="display:block;margin-top:8px">Asunto</label>
+            <select id="subj">
+              <option>Consulta general</option><option>Seguros</option><option>Siniestro</option><option>Tarjetas</option><option>Reclamo</option>
+            </select>
+            <label for="msg" style="display:block;margin-top:8px">Mensaje</label>
+            <textarea id="msg" required placeholder="Contanos en qué te podemos ayudar"></textarea>
+            <button class="btn btn-primary" style="margin-top:10px" type="submit">Enviar</button>
+          </form>
+          <div class="status" id="emailStatus"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍA DEMO -->
+  <section id="guia">
+    <div class="wrap">
+      <h2 class="section-title">Guía para el presentador</h2>
+      <p class="section-sub">Clientes de prueba y guion sugerido.</p>
+      <div class="grid-3">
+        <div class="card guide"><h3>Clientes de prueba</h3>
+          <ul>
+            <li><code>30123456</code> · <code>15-03-1985</code> · Juan Pérez</li>
+            <li><code>28987654</code> · <code>02-11-1979</code> · María Gómez</li>
+          </ul></div>
+        <div class="card guide"><h3>Guion de chat</h3>
+          <ol><li>Pregunta de FAQ (seguros)</li><li>Consulta de saldo → validación</li><li>Bloqueo de tarjeta → confirmación</li><li>Denuncia de siniestro</li><li>"Quiero hablar con una persona"</li></ol></div>
+        <div class="card guide"><h3>Momentos "wow"</h3>
+          <ul><li>Intento de jailbreak bloqueado</li><li>Cambio de idioma automático</li><li>Mismo agente por voz y por chat</li><li>Handover con contexto al asesor</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Demo de IA conversacional · Construida con NiCE Cognigy · Entidad ficticia con fines de demostración</footer>
+
+  <script src="config.js"></script>
+  <!-- Webchat v3 (script oficial alojado por Cognigy) -->
+  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+  <script>
+    const CFG = window.DEMO_CONFIG || {};
+    document.documentElement.style.setProperty('--primary', CFG.PRIMARY_COLOR || '#0B3D91');
+    const isSet = (u) => u && !u.includes('PEGAR_TOKEN');
+
+    // ---------- WEBCHAT ----------
+    let webchat = null;
+    const chatStatus = document.getElementById('chatStatus');
+    if (isSet(CFG.WEBCHAT_CONFIG_URL) && typeof initWebchat === 'function') {
+      initWebchat(CFG.WEBCHAT_CONFIG_URL, {
+        settings: {
+          colors: { primaryColor: CFG.PRIMARY_COLOR },
+          behavior: { enableTypingIndicator: true, enableSTT: true }
+        }
+      }).then(w => { webchat = w; window.cognigyWebchat = w; })
+        .catch(e => { chatStatus.textContent = 'No se pudo iniciar el webchat: ' + e.message; chatStatus.className = 'status err'; });
+    } else {
+      chatStatus.textContent = 'Configurá WEBCHAT_CONFIG_URL en config.js';
+      chatStatus.className = 'status err';
+    }
+    function openChat(){ if (webchat && webchat.open) webchat.open(); }
+    function askSofia(text){
+      if (!webchat) return;
+      if (webchat.open) webchat.open();
+      if (webchat.sendMessage) webchat.sendMessage(text);
+    }
+
+    // ---------- EMAIL (simulado vía Endpoint REST) ----------
+    const emailCard = document.getElementById('emailCard');
+    const emailStatus = document.getElementById('emailStatus');
+    if (!CFG.REST_ENDPOINT_URL) emailCard.style.display = 'none';
+    document.getElementById('emailForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const email = document.getElementById('em').value.trim();
+      const asunto = document.getElementById('subj').value;
+      const mensaje = document.getElementById('msg').value.trim();
+      emailStatus.textContent = 'Enviando…'; emailStatus.className = 'status';
+      try {
+        const res = await fetch(CFG.REST_ENDPOINT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: email,
+            sessionId: 'email-' + Date.now(),
+            text: mensaje,
+            data: { channel: 'email', email, asunto }
+          })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        emailStatus.textContent = '¡Recibido! Sofía te va a responder a ' + email + ' en unos minutos.';
+        emailStatus.className = 'status ok';
+        ev.target.reset();
+      } catch (e) {
+        emailStatus.textContent = 'No se pudo enviar (' + e.message + '). Revisá la URL del endpoint REST o CORS.';
+        emailStatus.className = 'status err';
+      }
+    });
+  </script>
+
+  <!-- CLICK TO CALL (SDK oficial cargado como módulo ES desde esm.sh) -->
+  <script type="module">
+    const CFG = window.DEMO_CONFIG || {};
+    const $ = (id) => document.getElementById(id);
+    const callBtn = $('callBtn'), hangupBtn = $('hangupBtn'), st = $('callStatus'), dot = $('callDot'), timerEl = $('callTimer');
+    const setStatus = (t, cls='') => { st.textContent = t; st.className = 'status ' + cls; };
+    let client = null, t0 = null, timer = null;
+
+    const startTimer = () => { t0 = Date.now(); dot.classList.add('live'); timer = setInterval(() => {
+      const s = Math.floor((Date.now()-t0)/1000); timerEl.textContent = String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }, 1000); };
+    const stopTimer = () => { clearInterval(timer); dot.classList.remove('live'); timerEl.textContent = '00:00'; };
+    const resetUI = () => { stopTimer(); callBtn.disabled = false; hangupBtn.disabled = true; };
+
+    if (!CFG.VOICE_ENDPOINT_URL || CFG.VOICE_ENDPOINT_URL.includes('PEGAR_TOKEN')) {
+      callBtn.disabled = true; setStatus('Configurá VOICE_ENDPOINT_URL en config.js', 'err');
+    }
+
+    callBtn.addEventListener('click', async () => {
+      callBtn.disabled = true; setStatus('Iniciando…');
+      try {
+        if (!client) {
+          const sdk = await import('https://esm.sh/@cognigy/click-to-call-sdk');
+          const support = sdk.checkWebRTCSupport();
+          if (!support.supported) throw new Error('Tu navegador no soporta WebRTC: ' + support.missing);
+          client = await sdk.createWebRTCClient({
+            endpointUrl: CFG.VOICE_ENDPOINT_URL,
+            userId: 'web-' + Math.random().toString(36).slice(2, 10)
+          });
+          client.on('connecting', () => setStatus('Conectando…'));
+          client.on('registered', () => setStatus('Conectado, llamando a Sofía…'));
+          client.on('answered', () => { setStatus('En llamada con Sofía 🎙️', 'ok'); hangupBtn.disabled = false; startTimer(); });
+          client.on('ended', () => { setStatus('Llamada finalizada.'); resetUI(); });
+          client.on('failed', (s, info) => { setStatus('La llamada falló: ' + (info && info.cause), 'err'); resetUI(); });
+          client.on('error', (e) => { setStatus('Error: ' + e.message, 'err'); resetUI(); });
+        }
+        await client.connectAndCall();
+      } catch (e) {
+        setStatus('Error: ' + e.message, 'err'); resetUI();
+      }
+    });
+
+    hangupBtn.addEventListener('click', async () => {
+      try { await client.endCall(); await client.disconnect(); } catch (_) {}
+      setStatus('Llamada finalizada.'); resetUI();
+    });
+
+    window.addEventListener('beforeunload', () => { if (client) void client.destroy().catch(() => {}); });
+  </script>
+</body>
+</html>
