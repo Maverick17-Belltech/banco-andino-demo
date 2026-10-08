@@ -4,12 +4,12 @@
 // =====================================================================
 window.DEMO_CONFIG = {
   // 1) Webchat v3 -> Deploy > Endpoints > Webchat > "Config URL"
-  WEBCHAT_CONFIG_URL: "https://endpoint-trial.cognigy.ai/PEGAR_TOKEN_WEBCHAT",
+  WEBCHAT_CONFIG_URL: "https://endpoint-trial.cognigy.ai/5c06317ecc489195073031a3b66851daf02a0dbe17dd769cd988dc43276fc1d6",
 
   // 2) Click to Call -> Endpoint de Voice Gateway > "Endpoint URL"
   //    Convertir: wss://endpoint-trial.cognigy.ai/<token>/voiceGateway
   //          ->   https://endpoint-trial.cognigy.ai/<token>
-  VOICE_ENDPOINT_URL: "https://endpoint-trial.cognigy.ai/PEGAR_TOKEN_VOZ",
+  VOICE_ENDPOINT_URL: "https://endpoint-trial.cognigy.ai/5c06317ecc489195073031a3b66851daf02a0dbe17dd769cd988dc43276fc1d6",
 
   // 3) Email (simulado) -> Endpoint REST > "Endpoint URL"
   //    Dejar vacío ("") para ocultar el formulario hasta configurarlo.
