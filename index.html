@@ -1,408 +1,679 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Andino &amp; Seguros | Demo</title>
-  <meta name="robots" content="noindex">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --primary:#0B3D91; --primary-dark:#082B66; --accent:#F5A623;
-      --bg:#F6F8FC; --surface:#FFFFFF; --text:#1B2433; --muted:#5B6678; --border:#E3E8F0;
-      --ok:#1E8E5A; --err:#C0392B; --radius:14px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
-    a{color:inherit}
-    .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
-    /* Banner demo */
-    .demo-bar{background:#FFF4DE;color:#7A4E00;font-size:13px;text-align:center;padding:6px 16px}
-    /* Header */
-    header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
-    .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-    .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;color:var(--primary);text-decoration:none}
-    .logo-mark{width:34px;height:34px;border-radius:9px;background:var(--primary);display:grid;place-items:center;color:#fff;font-size:18px}
-    .menu{display:flex;gap:26px;font-size:15px;color:var(--muted)}
-    .menu a{text-decoration:none}.menu a:hover{color:var(--primary)}
-    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;padding:11px 18px;font:600 15px Inter,sans-serif;cursor:pointer;text-decoration:none;transition:.15s}
-    .btn-primary{background:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-dark)}
-    .btn-ghost{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
-    .btn-accent{background:var(--accent);color:#2B1B00}
-    .btn:disabled{opacity:.55;cursor:not-allowed}
-    @media (max-width:820px){.menu{display:none}}
-    /* Hero */
-    .hero{background:linear-gradient(135deg,var(--primary) 0%,#1560BD 100%);color:#fff;padding:72px 0 88px}
-    .hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
-    .hero h1{font-size:44px;line-height:1.1;margin:0 0 16px}
-    .hero p{font-size:18px;opacity:.9;margin:0 0 28px;max-width:520px}
-    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-    .hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.7)}
-    .hero-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:26px;backdrop-filter:blur(6px)}
-    .hero-card h3{margin:0 0 6px}.hero-card small{opacity:.8}
-    .balance{font-size:34px;font-weight:700;margin:14px 0}
-    .chip{display:inline-block;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:99px;font-size:12px;margin-right:6px}
-    @media (max-width:820px){.hero-grid{grid-template-columns:1fr}.hero h1{font-size:34px}}
-    /* Sections */
-    section{padding:64px 0}
-    .section-title{font-size:30px;margin:0 0 8px}
-    .section-sub{color:var(--muted);margin:0 0 32px}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-    @media (max-width:900px){.grid-3,.grid-4{grid-template-columns:1fr 1fr}}
-    @media (max-width:560px){.grid-3,.grid-4{grid-template-columns:1fr}}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
-    .card .ico{font-size:26px;width:48px;height:48px;border-radius:12px;background:#EAF1FD;display:grid;place-items:center;margin-bottom:14px}
-    .card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--muted);font-size:15px}
-    .ask{margin-top:14px;font-size:14px;font-weight:600;color:var(--primary);background:none;border:0;padding:0;cursor:pointer}
-    /* Contact channels */
-    .channels{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-    .channel{display:flex;flex-direction:column;gap:12px}
-    .channel .status{font-size:13px;color:var(--muted);min-height:20px}
-    .status.ok{color:var(--ok)}.status.err{color:var(--err)}
-    label{font-size:13px;font-weight:600;color:var(--muted)}
-    input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font:15px Inter,sans-serif;background:#FBFCFE}
-    textarea{min-height:90px;resize:vertical}
-    .call-ui{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .dot{width:10px;height:10px;border-radius:50%;background:#B8C2D3;display:inline-block}
-    .dot.live{background:#E53935;animation:pulse 1.2s infinite}
-    @keyframes pulse{50%{opacity:.35}}
-    /* Demo guide */
-    .guide li{margin-bottom:6px}
-    code{background:#EEF2F8;padding:2px 6px;border-radius:6px;font-size:13px}
-    footer{padding:32px 0;color:var(--muted);font-size:13px;text-align:center}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banco &amp; Seguros Belltech | Demo</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#2A1B6E; --brand-2:#3D2A9B; --brand-dark:#170F44;
+  --accent:#00C2C7; --accent-dark:#00999D; --warm:#FFB547;
+  --bg:#F5F6FB; --surface:#FFFFFF; --text:#16152B; --muted:#5E6078; --border:#E4E5F0;
+  --ok:#14945F; --err:#D0393E; --radius:16px; --shadow:0 10px 30px rgba(23,15,68,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{max-width:100%}
+button{font-family:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ===== Demo strip ===== */
+.demo-strip{background:#FFF6E0;color:#6B4A00;font-size:12.5px;text-align:center;padding:6px 16px}
+
+/* ===== Top bar (segmentos) ===== */
+.topbar{background:var(--brand-dark);color:#CFCBEF;font-size:13.5px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:40px;gap:12px}
+.segments{display:flex;gap:4px;height:100%}
+.segments a{display:flex;align-items:center;padding:0 14px;height:100%;border-bottom:3px solid transparent}
+.segments a.on{color:#fff;border-bottom-color:var(--accent);font-weight:600}
+.segments a:hover{color:#fff}
+.util{display:flex;gap:18px}
+.util a:hover{color:#fff}
+@media (max-width:760px){.util{display:none}.segments a{padding:0 10px}}
+
+/* ===== Header ===== */
+header{background:var(--surface);position:sticky;top:0;z-index:50;box-shadow:0 1px 0 var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--brand);letter-spacing:-.2px;white-space:nowrap}
+.brand-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center}
+.brand small{display:block;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.4px;text-transform:uppercase;margin-top:-3px}
+.menu{display:flex;gap:4px;align-items:center}
+.menu > li{list-style:none;position:relative}
+.menu > li > a,.menu > li > button{display:flex;align-items:center;gap:6px;padding:10px 12px;border-radius:10px;font-weight:600;font-size:15px;color:var(--text);background:none;border:0;cursor:pointer}
+.menu > li > a:hover,.menu > li > button:hover{background:var(--bg);color:var(--brand)}
+.dd{position:absolute;top:calc(100% + 8px);left:0;min-width:240px;background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);padding:8px;opacity:0;visibility:hidden;transform:translateY(-4px);transition:.15s}
+.menu > li:hover .dd,.menu > li:focus-within .dd{opacity:1;visibility:visible;transform:none}
+.dd a{display:block;padding:9px 12px;border-radius:9px;font-size:14.5px;color:var(--text)}
+.dd a:hover{background:var(--bg);color:var(--brand)}
+.actions{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:11px 20px;font:700 14.5px "Plus Jakarta Sans",sans-serif;cursor:pointer;transition:.15s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-2)}
+.btn-accent{background:var(--accent);color:#06272A}.btn-accent:hover{background:#2FD3D7}
+.btn-outline{background:transparent;color:var(--brand);box-shadow:inset 0 0 0 1.5px var(--brand)}
+.btn-outline:hover{background:var(--brand);color:#fff}
+.btn-light{background:#fff;color:var(--brand)}
+.btn-ghost-w{background:transparent;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7)}
+.btn-ghost-w:hover{background:rgba(255,255,255,.12)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--surface);cursor:pointer;align-items:center;justify-content:center}
+.user-pill{display:none;align-items:center;gap:8px;padding:6px 6px 6px 14px;border-radius:999px;background:var(--bg);font-weight:600;font-size:14px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+@media (max-width:1020px){.menu,.hide-md{display:none}.burger{display:flex}}
+@media (max-width:480px){.brand small{display:none}.brand{font-size:17px}.actions .btn-primary{padding:10px 14px}}
+
+/* ===== Mobile drawer ===== */
+.drawer-bg{position:fixed;inset:0;background:rgba(10,8,30,.45);opacity:0;visibility:hidden;transition:.2s;z-index:80}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(360px,88vw);background:var(--surface);z-index:90;transform:translateX(100%);transition:.25s;display:flex;flex-direction:column}
+.drawer.open{transform:none}.drawer-bg.open{opacity:1;visibility:visible}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--border)}
+.drawer-body{overflow:auto;padding:8px 12px 24px}
+.acc{border-bottom:1px solid var(--border)}
+.acc summary{list-style:none;cursor:pointer;padding:15px 8px;font-weight:700;display:flex;justify-content:space-between}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";color:var(--brand);font-size:20px;line-height:1}
+.acc[open] summary::after{content:"–"}
+.acc a{display:block;padding:9px 16px;color:var(--muted)}
+.x{width:40px;height:40px;border-radius:10px;border:0;background:var(--bg);cursor:pointer;font-size:20px}
+
+/* ===== Hero carousel ===== */
+.hero{position:relative;overflow:hidden;background:var(--brand-dark)}
+.slides{display:flex;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.slide{min-width:100%;color:#fff;padding:64px 0 130px;position:relative}
+.slide.s1{background:radial-gradient(1100px 500px at 85% 20%,rgba(0,194,199,.35),transparent 60%),linear-gradient(120deg,var(--brand-dark),var(--brand) 60%,#4A2BB0)}
+.slide.s2{background:radial-gradient(900px 500px at 80% 30%,rgba(255,181,71,.35),transparent 60%),linear-gradient(120deg,#0E2F4F,#155E75)}
+.slide.s3{background:radial-gradient(900px 500px at 85% 30%,rgba(0,194,199,.30),transparent 60%),linear-gradient(120deg,#1E1250,#5B2A86)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:16px}
+.hero h1{font-size:clamp(30px,4.6vw,52px);line-height:1.08;margin:0 0 16px;letter-spacing:-1px}
+.hero p.lead{font-size:clamp(16px,1.6vw,19px);opacity:.92;margin:0 0 28px;max-width:540px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero-art{display:flex;justify-content:center}
+.dots{position:absolute;bottom:72px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.dots button{width:10px;height:10px;border-radius:99px;border:0;background:rgba(255,255,255,.45);cursor:pointer;transition:.2s;padding:0}
+.dots button.on{width:28px;background:#fff}
+.arrows{position:absolute;bottom:76px;right:24px;display:flex;gap:8px;z-index:3}
+.arrows button{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;cursor:pointer;font-size:18px}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}.hero-art{display:none}.slide{padding:44px 0 110px}.arrows{display:none}}
+
+/* Phone mock in hero */
+.phone{width:260px;height:470px;border-radius:38px;background:#0B0828;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.35);transform:rotate(4deg)}
+.screen{width:100%;height:100%;border-radius:28px;background:linear-gradient(180deg,#fff,#F1F0FB);color:var(--text);padding:18px 14px;overflow:hidden}
+.screen .row{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted)}
+.bubble{border-radius:16px;padding:9px 12px;font-size:12px;margin:8px 0;max-width:85%}
+.bubble.b{background:var(--brand);color:#fff;border-bottom-left-radius:4px}
+.bubble.u{background:#E6E4F5;margin-left:auto;border-bottom-right-radius:4px}
+
+/* ===== Login card (overlap) ===== */
+.overlap{margin-top:-56px;position:relative;z-index:5}
+.quick-grid{display:grid;grid-template-columns:380px 1fr;gap:20px}
+@media (max-width:960px){.quick-grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border-radius:20px;box-shadow:var(--shadow);padding:24px}
+.panel h3{margin:0 0 4px;font-size:18px}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:10px 0 6px}
+input,select,textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font:15px "Plus Jakarta Sans",sans-serif;background:#FAFAFE;color:var(--text);transition:.15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);background:#fff}
+textarea{min-height:96px;resize:vertical}
+.pw{position:relative}.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--muted);cursor:pointer;font-size:13px;font-weight:600}
+.err{color:var(--err);font-size:13px;min-height:18px;margin-top:8px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:10px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;height:100%}
+@media (max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:10px;cursor:pointer;border:1.5px solid transparent;transition:.15s;text-align:left;font:inherit;color:inherit}
+.tile:hover{border-color:var(--accent);transform:translateY(-2px)}
+.ico{width:44px;height:44px;border-radius:12px;background:#EEEBFB;display:grid;place-items:center;font-size:22px}
+.tile b{font-size:15px}.tile span{font-size:13px;color:var(--muted)}
+
+/* ===== Sections ===== */
+section{padding:64px 0}
+.s-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:28px;flex-wrap:wrap}
+.s-head h2{font-size:clamp(24px,3vw,34px);margin:0;letter-spacing:-.5px}
+.s-head p{margin:6px 0 0;color:var(--muted)}
+.link{color:var(--brand);font-weight:700;font-size:14.5px;background:none;border:0;cursor:pointer;padding:0}
+.link:hover{text-decoration:underline}
+.grid{display:grid;gap:20px}
+.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}
+@media (max-width:1020px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){.g3,.g2{grid-template-columns:1fr}}
+@media (max-width:520px){.g4{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:10px;transition:.15s}
+.card:hover{box-shadow:var(--shadow)}
+.card h3{margin:0;font-size:18px}.card p{margin:0;color:var(--muted);font-size:14.5px;flex:1}
+.promo{border-radius:20px;overflow:hidden;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column}
+.promo .art{height:150px;display:grid;place-items:center;font-size:56px}
+.promo .body{padding:20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.promo h3{margin:0;font-size:18px}.promo p{margin:0;color:var(--muted);font-size:14.5px;flex:1}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:var(--brand);background:#EEEBFB;padding:4px 10px;border-radius:999px;align-self:flex-start}
+
+/* Split feature */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;background:var(--surface);border-radius:24px;padding:40px;border:1px solid var(--border)}
+@media (max-width:860px){.split{grid-template-columns:1fr;padding:24px}}
+.split ul{padding-left:0;list-style:none;margin:16px 0 24px}
+.split li{padding:6px 0 6px 30px;position:relative}
+.split li::before{content:"✓";position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;background:#DDF8F8;color:var(--accent-dark);font-size:12px;font-weight:800;display:grid;place-items:center}
+.sofia-art{background:linear-gradient(135deg,var(--brand),#4A2BB0);border-radius:20px;padding:28px;color:#fff;min-height:280px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;position:relative;overflow:hidden}
+.sofia-art .bubble{font-size:14px}
+.sofia-art .bubble.u{background:rgba(255,255,255,.18);color:#fff}
+.sofia-art .bubble.b{background:#fff;color:var(--text)}
+
+/* Mi cuenta */
+#micuenta{display:none;padding-top:40px}
+.acct{background:var(--surface);border-radius:20px;border:1px solid var(--border);padding:22px;display:flex;flex-direction:column;gap:6px}
+.acct .amt{font-size:28px;font-weight:800;color:var(--brand);letter-spacing:-.5px}
+.acct small{color:var(--muted)}
+.policy{margin-top:20px;background:linear-gradient(120deg,var(--brand),#4A2BB0);color:#fff;border-radius:20px;padding:24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+
+/* Canales */
+.channels{background:var(--surface)}
+.status{font-size:13px;color:var(--muted);min-height:20px}
+.status.ok{color:var(--ok)}.status.err{color:var(--err)}
+.call-ui{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.live{width:10px;height:10px;border-radius:50%;background:#C3C5D6;display:inline-block}
+.live.on{background:#E53935;animation:p 1.2s infinite}@keyframes p{50%{opacity:.3}}
+
+/* Ayuda */
+.help{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:860px){.help{grid-template-columns:repeat(2,1fr)}}
+.help button,.help a{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;display:flex;align-items:center;gap:12px;font-weight:700;cursor:pointer;text-align:left;font-size:15px}
+.help button:hover,.help a:hover{border-color:var(--accent)}
+
+/* Guía */
+.guide code{background:#EEEBFB;padding:2px 6px;border-radius:6px;font-size:12.5px}
+.guide li{margin:6px 0;font-size:14px}
+
+/* Footer */
+footer{background:var(--brand-dark);color:#BDB8E6;padding:56px 0 24px;font-size:14px}
+.fcols{display:grid;grid-template-columns:1.3fr repeat(4,1fr);gap:28px}
+@media (max-width:960px){.fcols{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.fcols{grid-template-columns:1fr}}
+footer h4{color:#fff;margin:0 0 12px;font-size:15px}
+footer a{display:block;padding:4px 0}footer a:hover{color:#fff}
+.fbottom{border-top:1px solid rgba(255,255,255,.12);margin-top:36px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px}
+.social{display:flex;gap:10px}
+.social span{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff}
+
+/* ===== Login modal ===== */
+.modal-bg{position:fixed;inset:0;background:rgba(10,8,30,.55);display:none;align-items:center;justify-content:center;z-index:120;padding:16px}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border-radius:22px;width:min(420px,100%);padding:28px;position:relative;box-shadow:0 30px 70px rgba(0,0,0,.3)}
+.modal .x{position:absolute;top:14px;right:14px}
+
+/* ===== Sofía floating teaser ===== */
+.sofia-fab{position:fixed;right:20px;bottom:96px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none}
+.sofia-card{pointer-events:auto;width:min(330px,calc(100vw - 40px));background:var(--surface);border-radius:20px 20px 6px 20px;box-shadow:0 16px 40px rgba(23,15,68,.22);padding:16px;border:1px solid var(--border);transform-origin:bottom right;animation:pop .35s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.sofia-card.hidden{display:none}
+.sofia-top{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.sofia-ava{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--accent));display:grid;place-items:center;color:#fff;font-weight:800;position:relative;flex:none}
+.sofia-ava::after{content:"";position:absolute;right:0;bottom:1px;width:11px;height:11px;border-radius:50%;background:#2BD67B;border:2px solid #fff}
+.sofia-top b{display:block;font-size:15px}.sofia-top small{color:var(--muted);font-size:12px}
+.sofia-card p{margin:4px 0 10px;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chips button{border:1px solid var(--border);background:var(--bg);border-radius:999px;padding:6px 10px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--brand)}
+.chips button:hover{border-color:var(--brand)}
+.ask-row{display:flex;gap:6px}
+.ask-row input{padding:10px 12px;font-size:14px;border-radius:999px}
+.ask-row button{width:42px;height:42px;flex:none;border-radius:50%;border:0;background:var(--brand);color:#fff;cursor:pointer;font-size:16px}
+.sofia-close{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;border:0;background:var(--bg);cursor:pointer;color:var(--muted)}
+.sofia-mini{pointer-events:auto;display:none;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:6px 14px 6px 6px;box-shadow:0 10px 26px rgba(23,15,68,.2);border:1px solid var(--border);cursor:pointer;font-weight:700;font-size:14px;color:var(--brand)}
+.sofia-mini .sofia-ava{width:34px;height:34px;font-size:13px}
+.sofia-mini.show{display:flex}
+/* si no hay webchat configurado, el FAB va abajo de todo */
+body.no-webchat .sofia-fab{bottom:20px}
+@media (max-width:520px){.sofia-fab{right:12px;bottom:88px}}
+</style>
 </head>
 <body>
-  <div class="demo-bar">Sitio de demostración — "Banco Andino &amp; Seguros" es una entidad ficticia. No ingreses datos reales.</div>
 
-  <header>
-    <div class="wrap nav">
-      <a class="logo" href="#"><span class="logo-mark">▲</span> Banco Andino <span style="font-weight:500;color:var(--muted)">&amp; Seguros</span></a>
-      <nav class="menu">
-        <a href="#productos">Productos</a>
-        <a href="#seguros">Seguros</a>
-        <a href="#contacto">Contacto</a>
-        <a href="#guia">Guía demo</a>
-      </nav>
-      <button class="btn btn-primary" onclick="openChat()">💬 Hablar con Sofía</button>
+<div class="demo-strip">Sitio de demostración · "Banco &amp; Seguros Belltech" es una entidad ficticia creada para mostrar IA conversacional. No ingreses datos reales.</div>
+
+<!-- ===== Top bar ===== -->
+<div class="topbar">
+  <div class="wrap">
+    <nav class="segments" aria-label="Segmentos">
+      <a href="#" class="on">Personas</a><a href="#">Empresas</a><a href="#">Pymes</a>
+    </nav>
+    <div class="util">
+      <a href="#ayuda">Canales digitales</a><a href="#ayuda">Sucursales y cajeros</a><a href="#ayuda">Ayuda</a>
     </div>
-  </header>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <h1>Tu banco y tu seguro, atendidos 24/7 por IA.</h1>
-        <p>Consultá saldos, bloqueá tarjetas o denunciá un siniestro en minutos con Sofía, nuestra asesora virtual. Por chat, por email o con una llamada desde el navegador.</p>
-        <div class="hero-actions">
-          <button class="btn btn-accent" onclick="openChat()">💬 Chatear ahora</button>
-          <a class="btn btn-ghost" href="#contacto">📞 Llamar desde la web</a>
+<!-- ===== Header ===== -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">
+      <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h8a4 4 0 0 1 0 8H5zM5 12h9a4 4 0 0 1 0 8H5z" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></svg></span>
+      <span>Belltech<small>Banco &amp; Seguros</small></span>
+    </a>
+
+    <ul class="menu">
+      <li><button>Cuentas ▾</button><div class="dd"><a href="#productos">Caja de Ahorro</a><a href="#productos">Cuenta Corriente</a><a href="#productos">Paquetes</a><a href="#productos">Cuenta Sueldo</a></div></li>
+      <li><button>Tarjetas ▾</button><div class="dd"><a href="#productos">Crédito</a><a href="#productos">Débito</a><a href="#" onclick="askSofia('Perdí mi tarjeta, ¿qué hago?');return false">Denunciar pérdida o robo</a></div></li>
+      <li><button>Préstamos ▾</button><div class="dd"><a href="#productos">Personales</a><a href="#productos">Prendarios</a><a href="#productos">Hipotecarios</a></div></li>
+      <li><button>Seguros ▾</button><div class="dd"><a href="#seguros">Auto</a><a href="#seguros">Hogar</a><a href="#seguros">Vida</a><a href="#seguros">Viaje</a><a href="#" onclick="askSofia('Quiero denunciar un siniestro');return false">Denunciar siniestro</a></div></li>
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#ayuda">Ayuda</a></li>
+    </ul>
+
+    <div class="actions">
+      <a class="btn btn-outline hide-md" href="#" onclick="askSofia('Quiero hacerme cliente, ¿qué necesito?');return false">Hacete cliente</a>
+      <button class="btn btn-primary" id="btnBanca" onclick="openLogin()">🔒 Banca Online</button>
+      <div class="user-pill" id="userPill"><span id="upName">—</span><button class="btn btn-outline" style="padding:6px 12px" onclick="logout()">Salir</button><span class="avatar" id="upAva">—</span></div>
+      <button class="burger" aria-label="Abrir menú" onclick="toggleDrawer(true)"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="#2A1B6E" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Mobile drawer ===== -->
+<div class="drawer-bg" id="drawerBg" onclick="toggleDrawer(false)"></div>
+<aside class="drawer" id="drawer" aria-label="Menú">
+  <div class="drawer-head"><b>Menú</b><button class="x" onclick="toggleDrawer(false)" aria-label="Cerrar">×</button></div>
+  <div class="drawer-body">
+    <details class="acc"><summary>Cuentas</summary><a href="#productos">Caja de Ahorro</a><a href="#productos">Cuenta Corriente</a><a href="#productos">Paquetes</a></details>
+    <details class="acc"><summary>Tarjetas</summary><a href="#productos">Crédito</a><a href="#productos">Débito</a></details>
+    <details class="acc"><summary>Préstamos</summary><a href="#productos">Personales</a><a href="#productos">Hipotecarios</a></details>
+    <details class="acc"><summary>Seguros</summary><a href="#seguros">Auto</a><a href="#seguros">Hogar</a><a href="#seguros">Vida y Viaje</a></details>
+    <details class="acc"><summary>Ayuda</summary><a href="#ayuda">Canales digitales</a><a href="#ayuda">Sucursales</a><a href="#guia">Guía de la demo</a></details>
+    <div style="padding:16px 8px;display:grid;gap:10px">
+      <button class="btn btn-primary" onclick="toggleDrawer(false);openLogin()">🔒 Banca Online</button>
+      <button class="btn btn-outline" onclick="toggleDrawer(false);openChat()">💬 Hablar con Sofía</button>
+    </div>
+  </div>
+</aside>
+
+<!-- ===== Hero carousel ===== -->
+<div class="hero" id="hero">
+  <div class="slides" id="slides">
+    <div class="slide s1">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">✨ Nuevo · Asistente con IA</span>
+          <h1>Conocé a Sofía, tu asesora 24/7.</h1>
+          <p class="lead">Consultá saldos, bloqueá tarjetas o denunciá un siniestro en minutos. Por chat, por voz o por email.</p>
+          <div class="hero-ctas"><button class="btn btn-accent" onclick="openChat()">💬 Hablar con Sofía</button><button class="btn btn-ghost-w" onclick="document.getElementById('canales').scrollIntoView()">📞 Llamar desde la web</button></div>
+        </div>
+        <div class="hero-art">
+          <div class="phone"><div class="screen">
+            <div class="row"><b style="color:var(--brand)">Sofía · Belltech</b><span>en línea</span></div>
+            <div class="bubble b">¡Hola! ¿En qué te puedo ayudar hoy?</div>
+            <div class="bubble u">Perdí mi tarjeta 😟</div>
+            <div class="bubble b">Tranquilo, la bloqueo ahora. ¿Me confirmás los últimos 4 dígitos?</div>
+            <div class="bubble u">4521</div>
+            <div class="bubble b">Listo ✅ Tarjeta bloqueada. Gestión BLQ-482193. La nueva llega en 5 a 7 días.</div>
+          </div></div>
         </div>
       </div>
-      <!-- LOGIN (no logueado) -->
-      <div class="hero-card" id="loginCard">
-        <h3>🔒 Home Banking</h3><small>Ingresá a tu cuenta</small>
-        <form id="loginForm" style="margin-top:16px">
-          <label for="lgEmail" style="color:#fff;opacity:.85">Email</label>
-          <input id="lgEmail" type="email" required placeholder="tu@email.com" autocomplete="off">
-          <label for="lgPass" style="color:#fff;opacity:.85;display:block;margin-top:10px">Clave</label>
-          <input id="lgPass" type="password" required placeholder="••••••••" autocomplete="off">
-          <button class="btn btn-accent" style="margin-top:14px;width:100%;justify-content:center" type="submit">Ingresar</button>
-          <div id="loginErr" style="color:#FFD2CC;font-size:13px;margin-top:8px;min-height:18px"></div>
-        </form>
-        <small>Demo: usuarios en la "Guía para el presentador" · clave <b>Demo1234@</b></small>
-      </div>
-      <!-- RESUMEN (logueado) -->
-      <div class="hero-card" id="welcomeCard" style="display:none">
-        <small>Bienvenido/a</small>
-        <h3 id="wcName" style="font-size:24px;margin:2px 0 10px">—</h3>
-        <span class="chip">✅ Sesión iniciada</span><span class="chip">Sofía ya te reconoce</span>
-        <div class="hero-actions" style="margin-top:18px">
-          <a class="btn btn-accent" href="#micuenta">Ver mi cuenta</a>
-          <button class="btn btn-ghost" onclick="logout()">Salir</button>
+    </div>
+    <div class="slide s2">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">🚗 Seguros</span>
+          <h1>Denunciá tu siniestro sin hacer filas.</h1>
+          <p class="lead">Sofía toma la denuncia, te da el número de gestión al instante y te deriva con un asesor si lo necesitás.</p>
+          <div class="hero-ctas"><button class="btn btn-light" onclick="askSofia('Quiero denunciar un siniestro')">Denunciar ahora</button><a class="btn btn-ghost-w" href="#seguros">Ver seguros</a></div>
         </div>
+        <div class="hero-art" style="font-size:150px">🛡️</div>
+      </div>
+    </div>
+    <div class="slide s3">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="eyebrow">💸 Préstamos</span>
+          <h1>Tu préstamo personal, aprobado en el día.</h1>
+          <p class="lead">Hasta 60 cuotas fijas. Si cobrás tu sueldo en Belltech, puede estar preaprobado.</p>
+          <div class="hero-ctas"><button class="btn btn-light" onclick="askSofia('¿Qué préstamos ofrecen?')">Consultar a Sofía</button><button class="btn btn-ghost-w" onclick="openLogin()">Ingresar</button></div>
+        </div>
+        <div class="hero-art" style="font-size:150px">📈</div>
       </div>
     </div>
   </div>
+  <div class="dots" id="dots"></div>
+  <div class="arrows"><button aria-label="Anterior" onclick="go(cur-1)">‹</button><button aria-label="Siguiente" onclick="go(cur+1)">›</button></div>
+</div>
 
-  <!-- MI CUENTA (solo logueado) -->
-  <section id="micuenta" style="display:none">
-    <div class="wrap">
-      <h2 class="section-title">Mi cuenta</h2>
-      <p class="section-sub" id="mcSub">Resumen de tus productos.</p>
-      <div class="grid-3">
-        <div class="card"><div class="ico">🏦</div><h3>Caja de Ahorro</h3><p>•••• <span class="acc4">0000</span></p>
-          <div class="balance" style="color:var(--primary);font-size:26px">$ 1.254.380,50</div>
-          <button class="ask" onclick="askSofia('¿Cuáles fueron mis últimos movimientos de la caja de ahorro?')">Consultar a Sofía →</button></div>
-        <div class="card"><div class="ico">📄</div><h3>Cuenta Corriente</h3><p>Acuerdo disponible $ 500.000</p>
-          <div class="balance" style="color:var(--primary);font-size:26px">$ 356.120,00</div>
-          <button class="ask" onclick="askSofia('¿Cuánto tengo en la cuenta corriente?')">Consultar a Sofía →</button></div>
-        <div class="card"><div class="ico">💳</div><h3>Tarjeta de crédito</h3><p>•••• 4521 · vence 20-10-2026 · mínimo $ 28.400</p>
-          <div class="balance" style="color:var(--primary);font-size:26px">$ 189.450,75</div>
-          <button class="ask" onclick="askSofia('Perdí mi tarjeta terminada en 4521, quiero bloquearla')">Bloquear con Sofía →</button></div>
-      </div>
-      <div class="card" style="margin-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-        <div><h3 style="margin:0">🛡️ Póliza <span id="mcPoliza">—</span></h3><p>Vigente · Denunciá un siniestro sin volver a identificarte.</p></div>
-        <button class="btn btn-primary" onclick="askSofia('Quiero denunciar un siniestro de mi póliza')">Denunciar siniestro</button>
+<!-- ===== Login + accesos rápidos ===== -->
+<div class="wrap overlap">
+  <div class="quick-grid">
+    <div class="panel" id="loginPanel">
+      <h3>🔒 Banca Online</h3>
+      <p class="sub">Ingresá con tu email y clave.</p>
+      <form class="loginForm" data-err="errA">
+        <label for="emA">Email</label><input id="emA" name="email" type="email" required placeholder="tu@email.com" autocomplete="off">
+        <label for="pwA">Clave</label>
+        <div class="pw"><input id="pwA" name="pass" type="password" required placeholder="••••••••" autocomplete="off"><button type="button" onclick="togglePw('pwA',this)">Ver</button></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px" type="submit">Ingresar</button>
+        <div class="err" id="errA"></div>
+      </form>
+      <div class="hint">¿Olvidaste tu clave? <button class="link" onclick="askSofia('Olvidé mi clave de banca online')">Pedile ayuda a Sofía</button></div>
+    </div>
+    <div class="panel" id="welcomePanel" style="display:none">
+      <p class="sub" style="margin:0">Bienvenido/a</p>
+      <h3 id="wName" style="font-size:26px;margin:2px 0 12px">—</h3>
+      <span class="tag">✅ Sesión iniciada · Sofía ya te reconoce</span>
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="#micuenta">Ver mi cuenta</a>
+        <button class="btn btn-outline" onclick="openChat()">💬 Hablar con Sofía</button>
       </div>
     </div>
-  </section>
 
-  <!-- PRODUCTOS -->
-  <section id="productos">
-    <div class="wrap">
-      <h2 class="section-title">Productos</h2>
-      <p class="section-sub">Preguntale a Sofía por cualquiera de ellos: responde con la base de conocimiento del banco.</p>
-      <div class="grid-4">
-        <div class="card"><div class="ico">🏦</div><h3>Cuentas</h3><p>Caja de Ahorro gratuita y Cuenta Corriente bonificada con sueldo.</p><button class="ask" onclick="askSofia('¿Cuánto cuesta el mantenimiento de la cuenta?')">Preguntar a Sofía →</button></div>
-        <div class="card"><div class="ico">💳</div><h3>Tarjetas</h3><p>Bloqueo inmediato y reposición sin costo en 5 a 7 días.</p><button class="ask" onclick="askSofia('Perdí mi tarjeta, ¿qué hago?')">Preguntar a Sofía →</button></div>
-        <div class="card"><div class="ico">💸</div><h3>Préstamos</h3><p>Personales de 12 a 60 cuotas fijas, aprobación en el día.</p><button class="ask" onclick="askSofia('¿Qué préstamos ofrecen?')">Preguntar a Sofía →</button></div>
-        <div class="card"><div class="ico">🔐</div><h3>Seguridad</h3><p>Nunca te pediremos claves, PIN ni códigos por ningún canal.</p><button class="ask" onclick="askSofia('¿El banco me puede pedir mi clave por chat?')">Preguntar a Sofía →</button></div>
+    <div class="tiles">
+      <button class="tile" onclick="askSofia('Perdí mi tarjeta, quiero bloquearla')"><span class="ico">💳</span><b>Bloquear tarjeta</b><span>Pérdida o robo</span></button>
+      <button class="tile" onclick="askSofia('Quiero denunciar un siniestro')"><span class="ico">🚗</span><b>Denunciar siniestro</b><span>Auto y hogar</span></button>
+      <button class="tile" onclick="askSofia('¿Cuál es el saldo de mi caja de ahorro?')"><span class="ico">💰</span><b>Consultar saldo</b><span>Cuentas y tarjetas</span></button>
+      <button class="tile" onclick="askSofia('¿Qué préstamos ofrecen?')"><span class="ico">💸</span><b>Préstamos</b><span>Simulá tu cuota</span></button>
+      <button class="tile" onclick="askSofia('Quiero abrir una cuenta')"><span class="ico">🏦</span><b>Abrir una cuenta</b><span>100% online</span></button>
+      <button class="tile" onclick="askSofia('Quiero hablar con una persona')"><span class="ico">🎧</span><b>Hablar con un asesor</b><span>Lun a vie 8 a 20 h</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Mi cuenta (logueado) ===== -->
+<section id="micuenta">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Mi cuenta</h2><p id="mcSub">Resumen de tus productos.</p></div><button class="link" onclick="askSofia('¿Cuáles fueron mis últimos movimientos?')">Consultar movimientos con Sofía →</button></div>
+    <div class="grid g3">
+      <div class="acct"><span class="ico">🏦</span><b>Caja de Ahorro</b><small>•••• <span class="acc4">0000</span></small><span class="amt">$ 1.254.380,50</span><button class="link" style="text-align:left" onclick="askSofia('¿Cuál es el saldo de mi caja de ahorro?')">Preguntar a Sofía →</button></div>
+      <div class="acct"><span class="ico">📄</span><b>Cuenta Corriente</b><small>Acuerdo disponible $ 500.000</small><span class="amt">$ 356.120,00</span><button class="link" style="text-align:left" onclick="askSofia('¿Cuánto tengo en la cuenta corriente?')">Preguntar a Sofía →</button></div>
+      <div class="acct"><span class="ico">💳</span><b>Tarjeta de crédito</b><small>•••• 4521 · vence 20-10-2026 · mínimo $ 28.400</small><span class="amt">$ 189.450,75</span><button class="link" style="text-align:left" onclick="askSofia('Perdí mi tarjeta terminada en 4521, quiero bloquearla')">Bloquear con Sofía →</button></div>
+    </div>
+    <div class="policy">
+      <div><b style="font-size:18px">🛡️ Póliza <span id="mcPoliza">—</span></b><div style="opacity:.85">Vigente · Denunciá un siniestro sin volver a identificarte.</div></div>
+      <button class="btn btn-light" onclick="askSofia('Quiero denunciar un siniestro de mi póliza')">Denunciar siniestro</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Productos ===== -->
+<section id="productos">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Elegí lo que necesitás</h2><p>Productos pensados para cada momento.</p></div><button class="link" onclick="askSofia('¿Qué productos me recomendás?')">¿Dudas? Preguntale a Sofía →</button></div>
+    <div class="grid g4">
+      <div class="promo"><div class="art" style="background:linear-gradient(135deg,#EEEBFB,#DDF8F8)">🏦</div><div class="body"><span class="tag">Sin costo</span><h3>Caja de Ahorro</h3><p>Abrila 100% online, sin costo de mantenimiento.</p><button class="link" style="text-align:left" onclick="askSofia('¿Cuánto cuesta el mantenimiento de la cuenta?')">Conocer más →</button></div></div>
+      <div class="promo"><div class="art" style="background:linear-gradient(135deg,#FFF1DA,#FFE1E8)">💳</div><div class="body"><span class="tag">Beneficios</span><h3>Tarjetas</h3><p>Bloqueo inmediato y reposición sin costo.</p><button class="link" style="text-align:left" onclick="askSofia('Perdí mi tarjeta, ¿qué hago?')">Conocer más →</button></div></div>
+      <div class="promo"><div class="art" style="background:linear-gradient(135deg,#DDF8F8,#E1EEFF)">💸</div><div class="body"><span class="tag">En el día</span><h3>Préstamos</h3><p>De 12 a 60 cuotas fijas. Aprobación en el día.</p><button class="link" style="text-align:left" onclick="askSofia('¿Qué préstamos ofrecen?')">Conocer más →</button></div></div>
+      <div class="promo"><div class="art" style="background:linear-gradient(135deg,#E8E3FF,#F5E1FF)">🔐</div><div class="body"><span class="tag">Seguridad</span><h3>Operá seguro</h3><p>Nunca te pediremos claves, PIN ni códigos.</p><button class="link" style="text-align:left" onclick="askSofia('¿El banco me puede pedir mi clave por chat?')">Conocer más →</button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Seguros ===== -->
+<section id="seguros" style="padding-top:0">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Seguros Belltech</h2><p>Protegé lo que más querés y gestioná todo con Sofía.</p></div></div>
+    <div class="grid g4">
+      <div class="card"><span class="ico">🚗</span><h3>Auto</h3><p>Terceros, terceros completo y todo riesgo. Denuncia en 72 h.</p><button class="link" style="text-align:left" onclick="askSofia('Quiero denunciar un siniestro de auto')">Denunciar siniestro →</button></div>
+      <div class="card"><span class="ico">🏠</span><h3>Hogar</h3><p>Hogar Plus cubre agua, incendio, robo y responsabilidad civil.</p><button class="link" style="text-align:left" onclick="askSofia('¿El seguro de hogar cubre daños por agua?')">Conocer más →</button></div>
+      <div class="card"><span class="ico">❤️</span><h3>Vida</h3><p>Protección para vos y tu familia.</p><button class="link" style="text-align:left" onclick="askSofia('¿Qué cubre el seguro de vida?')">Conocer más →</button></div>
+      <div class="card"><span class="ico">✈️</span><h3>Viaje</h3><p>Asistencia médica y equipaje en todo el mundo.</p><button class="link" style="text-align:left" onclick="askSofia('¿Qué cubre el seguro de viaje?')">Conocer más →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Sofía feature ===== -->
+<section id="beneficios" style="padding-top:0">
+  <div class="wrap">
+    <div class="split">
+      <div>
+        <span class="tag">Atención con IA</span>
+        <h2 style="font-size:clamp(24px,3vw,34px);margin:12px 0 8px;letter-spacing:-.5px">Sofía resuelve, y si hace falta, te pasa con una persona.</h2>
+        <p style="color:var(--muted);margin:0">Un mismo agente de IA en todos los canales, con acceso seguro a tus productos.</p>
+        <ul>
+          <li>Te reconoce si ya iniciaste sesión en Banca Online</li>
+          <li>Bloqueo de tarjetas y denuncia de siniestros al instante</li>
+          <li>Derivación a un asesor humano con todo el contexto</li>
+          <li>Habla tu idioma: chat, voz y email</li>
+        </ul>
+        <button class="btn btn-primary" onclick="openChat()">💬 Probar a Sofía</button>
+      </div>
+      <div class="sofia-art">
+        <div class="bubble u">Quiero hablar con una persona</div>
+        <div class="bubble b">Claro, te derivo con un asesor y le comparto el contexto de tu consulta 🙌</div>
+        <div class="bubble b">Estás primero en la fila · espera estimada: 1 min</div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- SEGUROS -->
-  <section id="seguros" style="padding-top:0">
-    <div class="wrap">
-      <h2 class="section-title">Seguros</h2>
-      <p class="section-sub">Denunciá un siniestro de punta a punta con Sofía y recibí tu número de gestión al instante.</p>
-      <div class="grid-3">
-        <div class="card"><div class="ico">🚗</div><h3>Auto</h3><p>Terceros, terceros completo y todo riesgo. Denuncia en 72 h.</p><button class="ask" onclick="askSofia('Quiero denunciar un siniestro de auto')">Denunciar siniestro →</button></div>
-        <div class="card"><div class="ico">🏠</div><h3>Hogar</h3><p>Hogar Plus cubre agua, incendio, robo y responsabilidad civil.</p><button class="ask" onclick="askSofia('¿El seguro de hogar cubre daños por agua?')">Preguntar a Sofía →</button></div>
-        <div class="card"><div class="ico">❤️</div><h3>Vida y Viaje</h3><p>Protección para vos y tu familia, dentro y fuera del país.</p><button class="ask" onclick="askSofia('¿Qué seguros ofrecen?')">Preguntar a Sofía →</button></div>
-      </div>
+<!-- ===== Canales ===== -->
+<section id="canales" class="channels">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Contactanos como prefieras</h2><p>Chat, voz o email: siempre te atiende Sofía.</p></div></div>
+    <div class="grid g3">
+      <div class="card"><span class="ico">💬</span><h3>Webchat</h3><p>Chateá con Sofía. Si lo necesitás, te deriva con un asesor humano.</p><button class="btn btn-primary" onclick="openChat()">Abrir chat</button><div class="status" id="chatStatus"></div></div>
+      <div class="card"><span class="ico">📞</span><h3>Llamar desde la web</h3><p>Hablá con Sofía por voz desde el navegador. Necesitás micrófono.</p>
+        <div class="call-ui"><button class="btn btn-primary" id="callBtn">📞 Llamar</button><button class="btn btn-outline" id="hangupBtn" disabled>Colgar</button><span><span class="live" id="callDot"></span> <span id="callTimer">00:00</span></span></div>
+        <div class="status" id="callStatus">Listo para llamar.</div></div>
+      <div class="card" id="emailCard"><span class="ico">✉️</span><h3>Escribinos por email</h3><p>Sofía analiza tu consulta y te responde a tu casilla.</p>
+        <form id="emailForm">
+          <label for="em">Tu email</label><input id="em" type="email" required placeholder="tu@email.com">
+          <label for="subj">Asunto</label><select id="subj"><option>Consulta general</option><option>Seguros</option><option>Siniestro</option><option>Tarjetas</option><option>Reclamo</option></select>
+          <label for="msg">Mensaje</label><textarea id="msg" required placeholder="Contanos en qué te podemos ayudar"></textarea>
+          <button class="btn btn-primary" style="margin-top:12px" type="submit">Enviar</button>
+        </form><div class="status" id="emailStatus"></div></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CANALES -->
-  <section id="contacto" class="channels">
-    <div class="wrap">
-      <h2 class="section-title">Contactanos</h2>
-      <p class="section-sub">Un mismo agente de IA, en todos los canales.</p>
-      <div class="grid-3">
-        <!-- Webchat -->
-        <div class="card channel">
-          <div class="ico">💬</div>
-          <h3>Webchat</h3>
-          <p>Chateá con Sofía. Si lo necesitás, te deriva con un asesor humano sin perder el contexto.</p>
-          <button class="btn btn-primary" onclick="openChat()">Abrir chat</button>
-          <div class="status" id="chatStatus"></div>
-        </div>
-
-        <!-- Click to Call -->
-        <div class="card channel">
-          <div class="ico">📞</div>
-          <h3>Llamar desde la web</h3>
-          <p>Hablá con Sofía por voz desde el navegador, sin teléfono. Necesitás micrófono.</p>
-          <div class="call-ui">
-            <button class="btn btn-primary" id="callBtn">📞 Llamar</button>
-            <button class="btn btn-ghost" id="hangupBtn" disabled>Colgar</button>
-            <span><span class="dot" id="callDot"></span> <span id="callTimer">00:00</span></span>
-          </div>
-          <div class="status" id="callStatus">Listo para llamar.</div>
-        </div>
-
-        <!-- Email -->
-        <div class="card channel" id="emailCard">
-          <div class="ico">✉️</div>
-          <h3>Escribinos por email</h3>
-          <p>Sofía analiza tu consulta y te responde a tu casilla.</p>
-          <form id="emailForm">
-            <label for="em">Tu email</label>
-            <input id="em" type="email" required placeholder="nombre@ejemplo.com">
-            <label for="subj" style="display:block;margin-top:8px">Asunto</label>
-            <select id="subj">
-              <option>Consulta general</option><option>Seguros</option><option>Siniestro</option><option>Tarjetas</option><option>Reclamo</option>
-            </select>
-            <label for="msg" style="display:block;margin-top:8px">Mensaje</label>
-            <textarea id="msg" required placeholder="Contanos en qué te podemos ayudar"></textarea>
-            <button class="btn btn-primary" style="margin-top:10px" type="submit">Enviar</button>
-          </form>
-          <div class="status" id="emailStatus"></div>
-        </div>
-      </div>
+<!-- ===== Ayuda ===== -->
+<section id="ayuda">
+  <div class="wrap">
+    <div class="s-head"><div><h2>¿Necesitás ayuda?</h2></div></div>
+    <div class="help">
+      <button onclick="openChat()"><span class="ico">🤖</span>Asistente virtual</button>
+      <button onclick="askSofia('¿Dónde hay una sucursal o cajero cerca?')"><span class="ico">📍</span>Sucursales y cajeros</button>
+      <button onclick="askSofia('Recibí un mensaje sospechoso, ¿qué hago?')"><span class="ico">🚨</span>Ayuda urgente</button>
+      <a href="#guia"><span class="ico">📘</span>Guía de la demo</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- GUÍA DEMO -->
-  <section id="guia">
-    <div class="wrap">
-      <h2 class="section-title">Guía para el presentador</h2>
-      <p class="section-sub">Clientes de prueba y guion sugerido.</p>
-      <div class="grid-3">
-        <div class="card guide"><h3>Usuarios de prueba</h3>
-          <p style="font-size:13px">Login web: clave <code>Demo1234@</code>. Sin login, Sofía valida con DNI + fecha.</p>
-          <ul style="font-size:14px">
-            <li><code>sebastian.sosa@belltech.la</code><br>DNI <code>29018611</code> · <code>17-07-1981</code></li>
-            <li><code>patricia.vinyolas@gmail.com</code><br>DNI <code>27933366</code> · <code>26-02-1980</code></li>
-            <li>Solo chat: <code>30123456</code> · <code>15-03-1985</code> (Juan)<br><code>28987654</code> · <code>02-11-1979</code> (María)</li>
-          </ul></div>
-        <div class="card guide"><h3>Guion de chat</h3>
-          <ol><li>Pregunta de FAQ (seguros)</li><li>Consulta de saldo → validación</li><li>Bloqueo de tarjeta → confirmación</li><li>Denuncia de siniestro</li><li>"Quiero hablar con una persona"</li></ol></div>
-        <div class="card guide"><h3>Momentos "wow"</h3>
-          <ul><li>Intento de jailbreak bloqueado</li><li>Cambio de idioma automático</li><li>Mismo agente por voz y por chat</li><li>Handover con contexto al asesor</li></ul></div>
-      </div>
+<!-- ===== Guía presentador ===== -->
+<section id="guia" style="padding-top:0">
+  <div class="wrap">
+    <div class="s-head"><div><h2>Guía para el presentador</h2><p>Usuarios de prueba y guion sugerido.</p></div></div>
+    <div class="grid g3 guide">
+      <div class="card"><h3>Banca Online (login)</h3><p style="flex:none">Clave: <code>Demo1234@</code></p>
+        <ul style="padding-left:18px;margin:0"><li><code>sebastian.sosa@belltech.la</code></li><li><code>patricia.vinyolas@gmail.com</code></li></ul>
+        <p style="flex:none">Sin login, Sofía valida con DNI + fecha:<br><code>30123456</code> · <code>15-03-1985</code></p></div>
+      <div class="card"><h3>Guion de chat</h3><ol style="padding-left:18px;margin:0"><li>Pregunta de FAQ (seguros)</li><li>Saldo → validación o login</li><li>Bloqueo de tarjeta → confirmación</li><li>Denuncia de siniestro</li><li>"Mandame esto por mail"</li><li>"Quiero hablar con una persona"</li></ol></div>
+      <div class="card"><h3>Momentos "wow"</h3><ul style="padding-left:18px;margin:0"><li>Login web → Sofía ya te reconoce</li><li>Jailbreak bloqueado</li><li>Cambio de idioma automático</li><li>Handover con contexto y vuelta a Sofía</li><li>Mismo agente por voz</li></ul></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>Demo de IA conversacional · Construida con NiCE Cognigy · Entidad ficticia con fines de demostración</footer>
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div><a class="brand" href="#" style="color:#fff"><span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h8a4 4 0 0 1 0 8H5zM5 12h9a4 4 0 0 1 0 8H5z" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></svg></span><span>Belltech<small style="color:#BDB8E6">Banco &amp; Seguros</small></span></a><p style="margin-top:14px">Demo de IA conversacional construida con NiCE Cognigy.</p></div>
+      <div><h4>Productos</h4><a href="#productos">Cuentas</a><a href="#productos">Tarjetas</a><a href="#productos">Préstamos</a><a href="#seguros">Seguros</a></div>
+      <div><h4>Ayuda</h4><a href="#ayuda">Canales digitales</a><a href="#ayuda">Sucursales</a><a href="#" onclick="openChat();return false">Asistente virtual</a></div>
+      <div><h4>El Banco</h4><a href="#">Quiénes somos</a><a href="#">Sustentabilidad</a><a href="#">Trabajá con nosotros</a></div>
+      <div><h4>Información</h4><a href="#">Comisiones</a><a href="#">Botón de arrepentimiento</a><a href="#">Defensa del consumidor</a></div>
+    </div>
+    <div class="fbottom"><span>© 2026 Banco &amp; Seguros Belltech · Entidad ficticia con fines de demostración.</span><div class="social"><span>in</span><span>f</span><span>ig</span><span>X</span></div></div>
+  </div>
+</footer>
 
-  <script src="config.js"></script>
-  <!-- Webchat v3 (script oficial alojado por Cognigy) -->
-  <script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
-  <script>
-    const CFG = window.DEMO_CONFIG || {};
-    document.documentElement.style.setProperty('--primary', CFG.PRIMARY_COLOR || '#0B3D91');
-    const isSet = (u) => u && !u.includes('PEGAR_TOKEN');
+<!-- ===== Login modal ===== -->
+<div class="modal-bg" id="loginModal" onclick="if(event.target===this)closeLogin()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="lmTitle">
+    <button class="x" onclick="closeLogin()" aria-label="Cerrar">×</button>
+    <span class="brand-mark" style="margin-bottom:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h8a4 4 0 0 1 0 8H5zM5 12h9a4 4 0 0 1 0 8H5z" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></svg></span>
+    <h3 id="lmTitle" style="margin:0 0 4px;font-size:22px">Banca Online</h3>
+    <p style="color:var(--muted);margin:0 0 8px;font-size:14px">Ingresá con tu email y clave.</p>
+    <form class="loginForm" data-err="errB">
+      <label for="emB">Email</label><input id="emB" name="email" type="email" required placeholder="tu@email.com" autocomplete="off">
+      <label for="pwB">Clave</label>
+      <div class="pw"><input id="pwB" name="pass" type="password" required placeholder="••••••••" autocomplete="off"><button type="button" onclick="togglePw('pwB',this)">Ver</button></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:16px" type="submit">Ingresar</button>
+      <div class="err" id="errB"></div>
+    </form>
+  </div>
+</div>
 
-    // ---------- LOGIN SIMULADO (Home Banking demo) ----------
-    // Usuarios ficticios: deben coincidir con el nodo Code "validar_identidad" de Cognigy.
-    const USERS = {
-      "sebastian.sosa@belltech.la":  { nombre: "Sebastian Sosa",    dni: "29018611", fecha_nacimiento: "17-07-1981", poliza: "IOU-112233", acc4: "3391" },
-      "patricia.vinyolas@gmail.com": { nombre: "Patricia Vinyolas", dni: "27933366", fecha_nacimiento: "26-02-1980", poliza: "AES-345678", acc4: "4802" }
-    };
-    const DEMO_PASS = "Demo1234@";
-    const store = {
-      get(){ try { return JSON.parse(localStorage.getItem('ba_session') || 'null'); } catch(_) { return null; } },
-      set(v){ try { localStorage.setItem('ba_session', JSON.stringify(v)); } catch(_) {} },
-      clear(){ try { localStorage.removeItem('ba_session'); } catch(_) {} }
-    };
-    const session = store.get();
+<!-- ===== Sofía globito ===== -->
+<div class="sofia-fab" id="sofiaFab">
+  <div class="sofia-card" id="sofiaCard" style="position:relative">
+    <button class="sofia-close" aria-label="Cerrar" onclick="hideTeaser()">×</button>
+    <div class="sofia-top"><span class="sofia-ava">S</span><div><b>Sofía</b><small>Asesora virtual · en línea</small></div></div>
+    <p id="sofiaGreet">¡Hola! 👋 ¿Tenés alguna consulta? Preguntame lo que quieras.</p>
+    <div class="chips">
+      <button onclick="askSofia('¿Cuál es mi saldo?')">Mi saldo</button>
+      <button onclick="askSofia('Perdí mi tarjeta')">Perdí mi tarjeta</button>
+      <button onclick="askSofia('Quiero denunciar un siniestro')">Siniestro</button>
+    </div>
+    <form class="ask-row" id="askForm"><input id="askInput" placeholder="Escribí tu pregunta…" aria-label="Pregunta para Sofía"><button type="submit" aria-label="Enviar">➤</button></form>
+  </div>
+  <button class="sofia-mini" id="sofiaMini" onclick="showTeaser()"><span class="sofia-ava">S</span>¿Te ayudo?</button>
+</div>
 
-    document.getElementById('loginForm').addEventListener('submit', (ev) => {
-      ev.preventDefault();
-      const email = document.getElementById('lgEmail').value.trim().toLowerCase();
-      const pass = document.getElementById('lgPass').value;
-      const u = USERS[email];
-      if (!u || pass !== DEMO_PASS) { document.getElementById('loginErr').textContent = 'Email o clave incorrectos.'; return; }
-      store.set({ email, ...u, loginAt: new Date().toISOString() });
-      location.reload(); // reinicia el webchat con la identidad del cliente
-    });
-    function logout(){ store.clear(); location.reload(); }
+<script src="config.js"></script>
+<script src="https://github.com/Cognigy/Webchat/releases/latest/download/webchat.js"></script>
+<script>
+const CFG = window.DEMO_CONFIG || {};
+const isSet = (u) => u && !u.includes('PEGAR_TOKEN');
+const $ = (id) => document.getElementById(id);
 
-    if (session) {
-      document.getElementById('loginCard').style.display = 'none';
-      document.getElementById('welcomeCard').style.display = '';
-      document.getElementById('wcName').textContent = session.nombre;
-      document.getElementById('micuenta').style.display = '';
-      document.getElementById('mcSub').textContent = 'Hola ' + session.nombre.split(' ')[0] + ', este es el resumen de tus productos.';
-      document.getElementById('mcPoliza').textContent = session.poliza;
-      document.querySelectorAll('.acc4').forEach(e => e.textContent = session.acc4);
+/* ---------- Carrusel ---------- */
+let cur = 0; const N = 3; let auto;
+const dots = $('dots');
+for (let i = 0; i < N; i++){ const b = document.createElement('button'); b.setAttribute('aria-label','Slide '+(i+1)); b.onclick = () => go(i); dots.appendChild(b); }
+function go(i){ cur = (i + N) % N; $('slides').style.transform = `translateX(-${cur*100}%)`; [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===cur)); clearInterval(auto); auto = setInterval(()=>go(cur+1), 7000); }
+go(0);
+let tx = null; $('hero').addEventListener('touchstart', e => tx = e.touches[0].clientX, {passive:true});
+$('hero').addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1)); tx = null; });
+
+/* ---------- Menú móvil ---------- */
+function toggleDrawer(o){ $('drawer').classList.toggle('open',o); $('drawerBg').classList.toggle('open',o); }
+document.querySelectorAll('.drawer a').forEach(a => a.addEventListener('click', () => toggleDrawer(false)));
+
+/* ---------- Login simulado ---------- */
+// Deben coincidir con los nodos "auth_web" y "validar_identidad" de Cognigy.
+const USERS = {
+  "sebastian.sosa@belltech.la":  { nombre: "Sebastian Sosa",    dni: "29018611", fecha_nacimiento: "17-07-1981", poliza: "IOU-112233", acc4: "3391" },
+  "patricia.vinyolas@gmail.com": { nombre: "Patricia Vinyolas", dni: "27933366", fecha_nacimiento: "26-02-1980", poliza: "AES-345678", acc4: "4802" }
+};
+const DEMO_PASS = "Demo1234@";
+const store = {
+  get(){ try { return JSON.parse(localStorage.getItem('bt_session') || 'null'); } catch(_) { return null; } },
+  set(v){ try { localStorage.setItem('bt_session', JSON.stringify(v)); } catch(_) {} },
+  clear(){ try { localStorage.removeItem('bt_session'); } catch(_) {} }
+};
+const session = store.get();
+function openLogin(){ $('loginModal').classList.add('open'); setTimeout(()=>$('emB').focus(),50); }
+function closeLogin(){ $('loginModal').classList.remove('open'); }
+function togglePw(id,b){ const i=$(id); i.type = i.type==='password'?'text':'password'; b.textContent = i.type==='password'?'Ver':'Ocultar'; }
+document.querySelectorAll('.loginForm').forEach(f => f.addEventListener('submit', ev => {
+  ev.preventDefault();
+  const email = f.email.value.trim().toLowerCase(), pass = f.pass.value, u = USERS[email];
+  if (!u || pass !== DEMO_PASS) { $(f.dataset.err).textContent = 'Email o clave incorrectos.'; return; }
+  store.set({ email, ...u, loginAt: new Date().toISOString() });
+  location.reload();
+}));
+function logout(){ store.clear(); location.reload(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLogin(); toggleDrawer(false); } });
+
+if (session) {
+  const first = session.nombre.split(' ')[0];
+  $('loginPanel').style.display = 'none'; $('welcomePanel').style.display = '';
+  $('wName').textContent = session.nombre;
+  $('btnBanca').style.display = 'none';
+  $('userPill').style.display = 'flex'; $('upName').textContent = first;
+  $('upAva').textContent = session.nombre.split(' ').map(s=>s[0]).join('').slice(0,2);
+  $('micuenta').style.display = 'block';
+  $('mcSub').textContent = 'Hola ' + first + ', este es el resumen de tus productos.';
+  $('mcPoliza').textContent = session.poliza;
+  document.querySelectorAll('.acc4').forEach(e => e.textContent = session.acc4);
+  $('sofiaGreet').textContent = '¡Hola ' + first + '! 👋 Ya te reconocí. ¿En qué te ayudo hoy?';
+  if (window.matchMedia('(max-width:520px)').matches) document.querySelector('.user-pill .btn').style.display='none';
+}
+
+/* ---------- Webchat Cognigy ---------- */
+let webchat = null; const pending = [];
+const authData = session
+  ? { authenticated: true, canal: 'web', email: session.email, nombre: session.nombre, dni: session.dni, fecha_nacimiento: session.fecha_nacimiento, poliza: session.poliza }
+  : { authenticated: false, canal: 'web' };
+if (isSet(CFG.WEBCHAT_CONFIG_URL) && typeof initWebchat === 'function') {
+  initWebchat(CFG.WEBCHAT_CONFIG_URL, {
+    userId: session ? 'cli-' + session.dni : 'anon-' + Math.random().toString(36).slice(2,10),
+    sessionId: 'web-' + Date.now(),
+    settings: {
+      colors: { primaryColor: CFG.PRIMARY_COLOR || '#2A1B6E' },
+      behavior: { enableTypingIndicator: true, enableSTT: true },
+      startBehavior: { startBehavior: 'injection', getStartedPayload: 'Hola', getStartedData: authData }
     }
+  }).then(w => { webchat = w; window.cognigyWebchat = w; while (pending.length) pending.shift()(); })
+    .catch(e => { $('chatStatus').textContent = 'No se pudo iniciar el webchat: ' + e.message; $('chatStatus').className = 'status err'; });
+} else {
+  document.body.classList.add('no-webchat');
+  $('chatStatus').textContent = 'Configurá WEBCHAT_CONFIG_URL en config.js'; $('chatStatus').className = 'status err';
+}
+function whenReady(fn){ webchat ? fn() : pending.push(fn); }
+function openChat(){ hideTeaser(true); whenReady(() => webchat.open && webchat.open()); }
+function askSofia(text){ hideTeaser(true); whenReady(() => { webchat.open && webchat.open(); webchat.sendMessage && webchat.sendMessage(text); }); }
 
-    // ---------- WEBCHAT ----------
-    // Si hay sesión, el webchat arranca con "inject" y envía los datos del cliente en input.data
-    let webchat = null;
-    const chatStatus = document.getElementById('chatStatus');
-    const authData = session
-      ? { authenticated: true, canal: 'web', email: session.email, nombre: session.nombre, dni: session.dni, fecha_nacimiento: session.fecha_nacimiento, poliza: session.poliza }
-      : { authenticated: false, canal: 'web' };
-    if (isSet(CFG.WEBCHAT_CONFIG_URL) && typeof initWebchat === 'function') {
-      const opts = {
-        settings: {
-          colors: { primaryColor: CFG.PRIMARY_COLOR },
-          behavior: { enableTypingIndicator: true, enableSTT: true },
-          startBehavior: { startBehavior: 'injection', getStartedPayload: 'Hola', getStartedData: authData }
-        }
-      };
-      // Sesión distinta por cliente para no mezclar historiales entre logins
-      opts.userId = session ? 'cli-' + session.dni : 'anon-' + Math.random().toString(36).slice(2, 10);
-      opts.sessionId = 'web-' + Date.now();
-      initWebchat(CFG.WEBCHAT_CONFIG_URL, opts).then(w => { webchat = w; window.cognigyWebchat = w; })
-        .catch(e => { chatStatus.textContent = 'No se pudo iniciar el webchat: ' + e.message; chatStatus.className = 'status err'; });
-    } else {
-      chatStatus.textContent = 'Configurá WEBCHAT_CONFIG_URL en config.js';
-      chatStatus.className = 'status err';
+/* ---------- Globito de Sofía ---------- */
+function hideTeaser(){ $('sofiaCard').classList.add('hidden'); $('sofiaMini').classList.add('show'); }
+function showTeaser(){ $('sofiaCard').classList.remove('hidden'); $('sofiaMini').classList.remove('show'); setTimeout(()=>$('askInput').focus(),50); }
+$('askForm').addEventListener('submit', e => { e.preventDefault(); const t = $('askInput').value.trim(); if (!t) return; $('askInput').value=''; askSofia(t); });
+// En mobile arranca minimizado para no tapar contenido
+if (window.matchMedia('(max-width:520px)').matches) hideTeaser();
+else setTimeout(() => { if (document.activeElement !== $('askInput')) hideTeaser(); }, 15000);
+
+/* ---------- Email (simulado vía Endpoint REST) ---------- */
+if (!CFG.REST_ENDPOINT_URL) $('emailCard').style.display = 'none';
+if (session) $('em').value = session.email;
+$('emailForm').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  const email = $('em').value.trim(), asunto = $('subj').value, mensaje = $('msg').value.trim(), st = $('emailStatus');
+  st.textContent = 'Enviando…'; st.className = 'status';
+  try {
+    const res = await fetch(CFG.REST_ENDPOINT_URL, { method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ userId: email, sessionId: 'email-' + Date.now(), text: mensaje, data: { channel:'email', email, asunto, ...(session ? authData : {}) } }) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    st.textContent = '¡Recibido! Sofía te va a responder a ' + email + '.'; st.className = 'status ok'; ev.target.reset(); if (session) $('em').value = session.email;
+  } catch (e) { st.textContent = 'No se pudo enviar (' + e.message + '). Revisá la URL del endpoint REST o CORS.'; st.className = 'status err'; }
+});
+</script>
+
+<!-- ---------- Click to Call (SDK oficial vía esm.sh) ---------- -->
+<script type="module">
+const CFG = window.DEMO_CONFIG || {};
+const $ = (id) => document.getElementById(id);
+const callBtn = $('callBtn'), hangupBtn = $('hangupBtn'), st = $('callStatus'), dot = $('callDot'), timerEl = $('callTimer');
+const setS = (t, c='') => { st.textContent = t; st.className = 'status ' + c; };
+let client = null, t0, timer;
+const startT = () => { t0 = Date.now(); dot.classList.add('on'); timer = setInterval(() => { const s = Math.floor((Date.now()-t0)/1000); timerEl.textContent = String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0'); }, 1000); };
+const reset = () => { clearInterval(timer); dot.classList.remove('on'); timerEl.textContent = '00:00'; callBtn.disabled = false; hangupBtn.disabled = true; };
+if (!CFG.VOICE_ENDPOINT_URL || CFG.VOICE_ENDPOINT_URL.includes('PEGAR_TOKEN')) { callBtn.disabled = true; setS('Configurá VOICE_ENDPOINT_URL en config.js', 'err'); }
+callBtn.addEventListener('click', async () => {
+  callBtn.disabled = true; setS('Iniciando…');
+  try {
+    if (!client) {
+      const sdk = await import('https://esm.sh/@cognigy/click-to-call-sdk');
+      const sup = sdk.checkWebRTCSupport(); if (!sup.supported) throw new Error('Tu navegador no soporta WebRTC');
+      client = await sdk.createWebRTCClient({ endpointUrl: CFG.VOICE_ENDPOINT_URL, userId: 'web-' + Math.random().toString(36).slice(2,10) });
+      client.on('connecting', () => setS('Conectando…'));
+      client.on('registered', () => setS('Conectado, llamando a Sofía…'));
+      client.on('answered', () => { setS('En llamada con Sofía 🎙️', 'ok'); hangupBtn.disabled = false; startT(); });
+      client.on('ended', () => { setS('Llamada finalizada.'); reset(); });
+      client.on('failed', (s, i) => { setS('La llamada falló: ' + (i && i.cause), 'err'); reset(); });
+      client.on('error', e => { setS('Error: ' + e.message, 'err'); reset(); });
     }
-    function openChat(){ if (webchat && webchat.open) webchat.open(); }
-    function askSofia(text){
-      if (!webchat) return;
-      if (webchat.open) webchat.open();
-      if (webchat.sendMessage) webchat.sendMessage(text);
-    }
-
-    // ---------- EMAIL (simulado vía Endpoint REST) ----------
-    const emailCard = document.getElementById('emailCard');
-    const emailStatus = document.getElementById('emailStatus');
-    if (!CFG.REST_ENDPOINT_URL) emailCard.style.display = 'none';
-    document.getElementById('emailForm').addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      const email = document.getElementById('em').value.trim();
-      const asunto = document.getElementById('subj').value;
-      const mensaje = document.getElementById('msg').value.trim();
-      emailStatus.textContent = 'Enviando…'; emailStatus.className = 'status';
-      try {
-        const res = await fetch(CFG.REST_ENDPOINT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: email,
-            sessionId: 'email-' + Date.now(),
-            text: mensaje,
-            data: { channel: 'email', email, asunto }
-          })
-        });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        emailStatus.textContent = '¡Recibido! Sofía te va a responder a ' + email + ' en unos minutos.';
-        emailStatus.className = 'status ok';
-        ev.target.reset();
-      } catch (e) {
-        emailStatus.textContent = 'No se pudo enviar (' + e.message + '). Revisá la URL del endpoint REST o CORS.';
-        emailStatus.className = 'status err';
-      }
-    });
-  </script>
-
-  <!-- CLICK TO CALL (SDK oficial cargado como módulo ES desde esm.sh) -->
-  <script type="module">
-    const CFG = window.DEMO_CONFIG || {};
-    const $ = (id) => document.getElementById(id);
-    const callBtn = $('callBtn'), hangupBtn = $('hangupBtn'), st = $('callStatus'), dot = $('callDot'), timerEl = $('callTimer');
-    const setStatus = (t, cls='') => { st.textContent = t; st.className = 'status ' + cls; };
-    let client = null, t0 = null, timer = null;
-
-    const startTimer = () => { t0 = Date.now(); dot.classList.add('live'); timer = setInterval(() => {
-      const s = Math.floor((Date.now()-t0)/1000); timerEl.textContent = String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }, 1000); };
-    const stopTimer = () => { clearInterval(timer); dot.classList.remove('live'); timerEl.textContent = '00:00'; };
-    const resetUI = () => { stopTimer(); callBtn.disabled = false; hangupBtn.disabled = true; };
-
-    if (!CFG.VOICE_ENDPOINT_URL || CFG.VOICE_ENDPOINT_URL.includes('PEGAR_TOKEN')) {
-      callBtn.disabled = true; setStatus('Configurá VOICE_ENDPOINT_URL en config.js', 'err');
-    }
-
-    callBtn.addEventListener('click', async () => {
-      callBtn.disabled = true; setStatus('Iniciando…');
-      try {
-        if (!client) {
-          const sdk = await import('https://esm.sh/@cognigy/click-to-call-sdk');
-          const support = sdk.checkWebRTCSupport();
-          if (!support.supported) throw new Error('Tu navegador no soporta WebRTC: ' + support.missing);
-          client = await sdk.createWebRTCClient({
-            endpointUrl: CFG.VOICE_ENDPOINT_URL,
-            userId: 'web-' + Math.random().toString(36).slice(2, 10)
-          });
-          client.on('connecting', () => setStatus('Conectando…'));
-          client.on('registered', () => setStatus('Conectado, llamando a Sofía…'));
-          client.on('answered', () => { setStatus('En llamada con Sofía 🎙️', 'ok'); hangupBtn.disabled = false; startTimer(); });
-          client.on('ended', () => { setStatus('Llamada finalizada.'); resetUI(); });
-          client.on('failed', (s, info) => { setStatus('La llamada falló: ' + (info && info.cause), 'err'); resetUI(); });
-          client.on('error', (e) => { setStatus('Error: ' + e.message, 'err'); resetUI(); });
-        }
-        await client.connectAndCall();
-      } catch (e) {
-        setStatus('Error: ' + e.message, 'err'); resetUI();
-      }
-    });
-
-    hangupBtn.addEventListener('click', async () => {
-      try { await client.endCall(); await client.disconnect(); } catch (_) {}
-      setStatus('Llamada finalizada.'); resetUI();
-    });
-
-    window.addEventListener('beforeunload', () => { if (client) void client.destroy().catch(() => {}); });
-  </script>
+    await client.connectAndCall();
+  } catch (e) { setS('Error: ' + e.message, 'err'); reset(); }
+});
+hangupBtn.addEventListener('click', async () => { try { await client.endCall(); await client.disconnect(); } catch(_) {} setS('Llamada finalizada.'); reset(); });
+window.addEventListener('beforeunload', () => { if (client) void client.destroy().catch(()=>{}); });
+</script>
 </body>
 </html>
