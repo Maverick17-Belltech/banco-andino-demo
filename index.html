@@ -609,6 +609,7 @@ if (isSet(CFG.WEBCHAT_CONFIG_URL) && typeof initWebchat === 'function') {
     settings: {
       colors: { primaryColor: CFG.PRIMARY_COLOR || '#2A1B6E' },
       behavior: { enableTypingIndicator: true, enableSTT: true },
+      homeScreen: { enabled: false },
       startBehavior: { startBehavior: 'injection', getStartedPayload: 'Hola', getStartedData: authData }
     }
   }).then(w => { webchat = w; window.cognigyWebchat = w; while (pending.length) pending.shift()(); })
@@ -619,7 +620,7 @@ if (isSet(CFG.WEBCHAT_CONFIG_URL) && typeof initWebchat === 'function') {
 }
 function whenReady(fn){ webchat ? fn() : pending.push(fn); }
 function openChat(){ hideTeaser(true); whenReady(() => webchat.open && webchat.open()); }
-function askSofia(text){ hideTeaser(true); whenReady(() => { webchat.open && webchat.open(); webchat.sendMessage && webchat.sendMessage(text); }); }
+function askSofia(text){ hideTeaser(true); whenReady(() => { webchat.open && webchat.open(); webchat.sendMessage && webchat.sendMessage(text, authData); }); }
 
 /* ---------- Globito de Sofía ---------- */
 function hideTeaser(){ $('sofiaCard').classList.add('hidden'); $('sofiaMini').classList.add('show'); }
